@@ -1,0 +1,227 @@
+#include<iostream.h>
+#include<math.h>
+#include<conio.h>
+#define   max  50
+class    stack
+{
+public:
+   int  item[max],top;
+   void  create(stack*);
+   void  push(stack*,int);
+   int   pop(stack*);
+};
+void     stack::create(stack   *p)
+{
+  p->top=-1;
+}
+void    stack::push(stack  *p,int  x)
+{
+   if(p->top==max-1)
+   {
+      cout<<"\nStack overflows..";
+   }
+   else
+   {
+      ++p->top;
+      p->item[p->top]=x;
+   }
+}
+
+int    stack::pop(stack  *p)
+{
+    if(p->top==-1)
+    {
+       cout<<"\nStack underflow..";
+       return 0;
+    }
+    else
+    {
+       return(p->item[p->top--]);
+    }
+}
+void   main()
+{
+       char   post[50];
+       int   i=0,op1,op2,val;
+       clrscr();
+       stack   obj;
+       stack   *p,q;
+       p=&q;
+       obj.create(p);
+       cout<<"\nEnter any postfix exp= ";
+       cin>>post;
+
+       while(post[i]!='\0')
+       {
+	     if(post[i]=='+'||post[i]=='-'||post[i]=='*'||post[i]=='/'||post[i]=='$')
+	     {
+		  op2=obj.pop(p);
+		  op1=obj.pop(p);
+		  switch(post[i])
+		  {
+		     case   '+':
+				val=op1+op2;
+				obj.push(p,val);
+				break;
+		     case   '-':
+				val=op1-op2;
+				obj.push(p,val);
+				break;
+			case   '*':
+				val=op1*op2;
+				obj.push(p,val);
+				break;
+		       case   '/':
+				val=op1/op2;
+				obj.push(p,val);
+				break;
+		      case   '$':
+				val=pow(op1,op2);
+				obj.push(p,val);
+				break;
+
+		  }
+	     }
+	     else
+	     {
+		obj.push(p,post[i]-48);
+	     }
+	     i++;
+       }
+
+       val=obj.pop(p);
+       cout<<"\nEvaluation= "<<val;
+       getch();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

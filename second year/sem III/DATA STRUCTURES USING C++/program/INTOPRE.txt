@@ -1,0 +1,103 @@
+#include<iostream.h>
+#include<string.h>
+#include<conio.h>
+#define  max   50
+class   stack
+{
+  public:
+    int item[max],top;
+    void create(stack*);
+    void push(stack*,int);
+    int  pop(stack*);
+};
+void  stack::create(stack *p)
+{
+   p->top=-1;
+}
+void   stack::push(stack *p,int x)
+{
+   if(p->top==max-1)
+   {
+      cout<<"\nStack overflows..";
+   }
+   else
+   {
+      ++p->top;
+      p->item[p->top]=x;
+   }
+}
+int   stack::pop(stack  *p)
+{
+  if(p->top==-1)
+  {
+     cout<<"\nStack underflows..";
+     return(0);
+  }
+  else
+  {
+     return(p->item[p->top--]);
+  }
+}
+void  main()
+{
+      char  in[50],pre[50],ch;
+      int i=0,j=0;
+      clrscr();
+      stack  obj;
+      stack  *ops,*oprnd,p,q;
+      ops=&p;
+      oprnd=&q;
+      obj.create(ops);   //Opstack created.
+      obj.create(oprnd);  //OprndStack created.
+      cout<<"\nEnter Infix Exp :    ";
+      cin>>in;
+      strrev(in);
+      while(in[i]!='\0')
+      {
+	  if(in[i]==')'||in[i]=='+'||in[i]=='-'||in[i]=='*'||in[i]=='/'||in[i]=='$'||in[i]=='^')
+	  {
+	     obj.push(ops,in[i]);
+	  }
+	  else  if(in[i]=='(')
+	  {
+	     while(ops->top!=-1)
+	     {
+		ch=obj.pop(ops);
+		if(ch!=')')
+		{
+		   obj.push(oprnd,ch);
+		}
+	     }
+	  }
+	  else
+	  {
+	     obj.push(oprnd,in[i]);
+	  }
+	  i++;
+      }
+
+      if(ops->top!=-1)
+      {
+	  while(ops->top!=-1)
+	     {
+		ch=obj.pop(ops);
+		if(ch!=')')
+		{
+		   obj.push(oprnd,ch);
+		}
+	     }
+      }
+
+      while(oprnd->top!=-1)
+      {
+	    pre[j]=obj.pop(oprnd);
+	    j++;
+      }
+      pre[j]='\0';
+      cout<<"\nPrefix Exp:   "<<pre;
+      getch();
+}
+
+
+
+

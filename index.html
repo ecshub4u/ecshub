@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>ECSHub — Study Materials for B.Sc. ECS</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@latest/devicon.min.css">
+  <style>
+    :root {
+      --wa-green: #00a884;
+      --wa-green-dark: #008069;
+      --wa-green-tint: #e7f8f3;
+      --bg-header: #f0f2f5;
+      --bg-sidebar: #ffffff;
+      --bg-chat: #efeae2;
+      --bg-card: #ffffff;
+      --text-primary: #111b21;
+      --text-secondary: #667781;
+      --text-muted: #8b959a;
+      --border-color: #e9edef;
+      --divider-color: #f5f5f5;
+      --hover-bg: #f5f6f6;
+      --active-bg: #f0f2f5;
+      --folder-color: #8696a0;
+      --chevron-color: #c8ccce;
+      --breadcrumb-bg: #f7f8f9;
+      --track-color: #e6e6e6;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .15);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, .18);
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --doodle-url: url("data:image/svg+xml,%3Csvg xmlns=%27http:%2F%2Fwww.w3.org%2F2000%2Fsvg%27 width=%27220%27 height=%27220%27 viewBox=%270 0 220 220%27%3E%3Cg fill=%27none%27 stroke=%27%230b141a%27 stroke-width=%271.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 opacity=%270.05%27%3E%3Cpath d=%27M20 34 L46 24 L72 34 L46 44 Z%27%2F%3E%3Cpath d=%27M32 39 L32 52 C32 57 60 57 60 52 L60 39%27%2F%3E%3Cline x1=%2772%27 y1=%2734%27 x2=%2772%27 y2=%2750%27%2F%3E%3Ccircle cx=%2772%27 cy=%2752%27 r=%272.2%27 fill=%27%230b141a%27 stroke=%27none%27%2F%3E%3Cpath d=%27M118 66 C112 62 100 61 94 63 L94 92 C100 90 112 91 118 95 C124 91 136 90 142 92 L142 63 C136 61 124 62 118 66 Z%27%2F%3E%3Cline x1=%27118%27 y1=%2766%27 x2=%27118%27 y2=%2795%27%2F%3E%3Cpath d=%27M30 150 L58 122 L66 130 L38 158 Z%27%2F%3E%3Cpath d=%27M58 122 L64 116 L72 124 L66 130 Z%27%2F%3E%3Cline x1=%2734%27 y1=%27154%27 x2=%2738%27 y2=%27158%27%2F%3E%3Cpath d=%27M150 168 L172 160 L194 168 L172 176 Z%27%2F%3E%3Cpath d=%27M160 172 L160 182 C160 186 184 186 184 182 L184 172%27%2F%3E%3C%2Fg%3E%3Cg fill=%27%230b141a%27 opacity=%270.045%27 font-family=%27Georgia, Times New Roman, serif%27%3E%3Ctext x=%27150%27 y=%2745%27 font-size=%2734%27%3E%CF%80%3C%2Ftext%3E%3Ctext x=%2715%27 y=%27115%27 font-size=%2730%27%3E%E2%88%91%3C%2Ftext%3E%3Ctext x=%2790%27 y=%27150%27 font-size=%2728%27%3E%E2%88%9A%3C%2Ftext%3E%3Ctext x=%27175%27 y=%27115%27 font-size=%2726%27%3E%C2%B1%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    }
+
+    body.dark {
+      --wa-green-tint: #0b3b32;
+      --bg-header: #202c33;
+      --bg-sidebar: #111b21;
+      --bg-chat: #0b141a;
+      --bg-card: #202c33;
+      --text-primary: #e9edef;
+      --text-secondary: #8696a0;
+      --text-muted: #5c6a72;
+      --border-color: #222d34;
+      --divider-color: #1f2c33;
+      --hover-bg: #202c33;
+      --active-bg: #2a3942;
+      --folder-color: #8696a0;
+      --chevron-color: #576267;
+      --breadcrumb-bg: #182229;
+      --track-color: #2a3942;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, .5);
+      --doodle-url: url("data:image/svg+xml,%3Csvg xmlns=%27http:%2F%2Fwww.w3.org%2F2000%2Fsvg%27 width=%27220%27 height=%27220%27 viewBox=%270 0 220 220%27%3E%3Cg fill=%27none%27 stroke=%27%23ffffff%27 stroke-width=%271.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 opacity=%270.045%27%3E%3Cpath d=%27M20 34 L46 24 L72 34 L46 44 Z%27%2F%3E%3Cpath d=%27M32 39 L32 52 C32 57 60 57 60 52 L60 39%27%2F%3E%3Cline x1=%2772%27 y1=%2734%27 x2=%2772%27 y2=%2750%27%2F%3E%3Ccircle cx=%2772%27 cy=%2752%27 r=%272.2%27 fill=%27%23ffffff%27 stroke=%27none%27%2F%3E%3Cpath d=%27M118 66 C112 62 100 61 94 63 L94 92 C100 90 112 91 118 95 C124 91 136 90 142 92 L142 63 C136 61 124 62 118 66 Z%27%2F%3E%3Cline x1=%27118%27 y1=%2766%27 x2=%27118%27 y2=%2795%27%2F%3E%3Cpath d=%27M30 150 L58 122 L66 130 L38 158 Z%27%2F%3E%3Cpath d=%27M58 122 L64 116 L72 124 L66 130 Z%27%2F%3E%3Cline x1=%2734%27 y1=%27154%27 x2=%2738%27 y2=%27158%27%2F%3E%3Cpath d=%27M150 168 L172 160 L194 168 L172 176 Z%27%2F%3E%3Cpath d=%27M160 172 L160 182 C160 186 184 186 184 182 L184 172%27%2F%3E%3C%2Fg%3E%3Cg fill=%27%23ffffff%27 opacity=%270.04%27 font-family=%27Georgia, Times New Roman, serif%27%3E%3Ctext x=%27150%27 y=%2745%27 font-size=%2734%27%3E%CF%80%3C%2Ftext%3E%3Ctext x=%2715%27 y=%27115%27 font-size=%2730%27%3E%E2%88%91%3C%2Ftext%3E%3Ctext x=%2790%27 y=%27150%27 font-size=%2728%27%3E%E2%88%9A%3C%2Ftext%3E%3Ctext x=%27175%27 y=%27115%27 font-size=%2726%27%3E%C2%B1%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-sidebar);
+      transition: background .25s var(--ease);
+    }
+
+    #app {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: var(--bg-sidebar);
+    }
+
+    .scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scroll::-webkit-scrollbar-thumb {
+      background: rgba(127, 127, 127, .3);
+      border-radius: 8px;
+    }
+
+    .scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* ---------- Motion ---------- */
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(26px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-26px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(.92);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim-right {
+      animation: slideInRight .3s var(--ease);
+    }
+
+    .anim-left {
+      animation: slideInLeft .3s var(--ease);
+    }
+
+    .anim-fade {
+      animation: fadeIn .32s var(--ease);
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      width: 420px;
+      min-width: 320px;
+      max-width: 460px;
+      flex-shrink: 0;
+      background: var(--bg-sidebar);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-color);
+      transition: background .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .sidebar-header {
+      min-height: 64px;
+      padding: 10px 16px;
+      background: var(--bg-header);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--wa-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .brand-text .brand-title {
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .brand-text .brand-sub {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+      background: transparent;
+      border: none;
+      font-size: 17px;
+      transition: background .15s var(--ease), transform .12s var(--ease), color .2s;
+    }
+
+    .icon-btn:hover {
+      background: rgba(127, 127, 127, .14);
+    }
+
+    .icon-btn:active {
+      transform: scale(.9);
+    }
+
+    .sidebar-header-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sidebar-header-text .sh-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-header-text .sh-sub {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg-sidebar);
+      transition: background .25s var(--ease);
+    }
+
+    .sidebar-footer {
+      padding: 8px 14px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid var(--divider-color);
+      background: var(--bg-header);
+      transition: background .25s var(--ease), color .25s var(--ease);
+    }
+
+    /* Continue Your Journey strip */
+    .recent-strip {
+      padding: 14px 16px 6px;
+      border-bottom: 1px solid var(--divider-color);
+    }
+
+    .recent-strip .rs-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .recent-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+    }
+
+    .recent-row::-webkit-scrollbar {
+      height: 0;
+    }
+
+    .recent-card {
+      flex: 0 0 auto;
+      width: 132px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      cursor: pointer;
+      transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+      animation: popIn .3s var(--ease) both;
+    }
+
+    .recent-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .recent-card:active {
+      transform: scale(.97);
+    }
+
+    .recent-card .rc-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--wa-green-tint);
+      color: var(--wa-green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .recent-card .rc-icon.rc-icon-brand {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .recent-card .rc-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 32px;
+    }
+
+    .recent-card .rc-progress {
+      margin-top: 8px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--track-color);
+      overflow: hidden;
+    }
+
+    .recent-card .rc-progress-fill {
+      height: 100%;
+      background: var(--wa-green);
+      border-radius: 2px;
+      transition: width .3s var(--ease);
+    }
+
+    .recent-card .rc-pct {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background .12s var(--ease), transform .1s var(--ease);
+      border-bottom: 1px solid var(--divider-color);
+    }
+
+    .list-row:hover {
+      background: var(--hover-bg);
+    }
+
+    .list-row:active {
+      transform: scale(.99);
+    }
+
+    .list-row.row-active {
+      background: var(--active-bg);
+      border-left: 3px solid var(--wa-green);
+      padding-left: 13px;
+    }
+
+    .row-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--wa-green-tint);
+      color: var(--wa-green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      overflow: hidden;
+    }
+
+    .row-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .row-avatar.avatar-brand {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .row-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .row-title {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .row-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .row-sub .done-tag {
+      color: var(--wa-green-dark);
+      font-weight: 600;
+    }
+
+    .row-chevron {
+      color: var(--chevron-color);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .empty-list-msg {
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .empty-list-msg i {
+      font-size: 34px;
+      color: var(--chevron-color);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    /* ---------- Chat / right panel ---------- */
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-chat);
+      min-width: 0;
+      position: relative;
+      transition: background .25s var(--ease);
+    }
+
+    .chat-header {
+      min-height: 64px;
+      padding: 8px 16px;
+      background: var(--bg-header);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-color);
+      z-index: 2;
+      transition: background .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .chat-back-btn {
+      display: none;
+    }
+
+    .chat-header-title {
+      font-size: 16.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chat-header-sub {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chat-progress-track {
+      height: 3px;
+      background: var(--track-color);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 6px;
+      width: 100%;
+      max-width: 220px;
+    }
+
+    .chat-progress-fill {
+      height: 100%;
+      background: var(--wa-green);
+      border-radius: 2px;
+      transition: width .35s var(--ease);
+    }
+
+    .breadcrumb-bar {
+      padding: 9px 16px;
+      background: var(--breadcrumb-bg);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 13px;
+      z-index: 2;
+      transition: background .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .crumb {
+      color: var(--wa-green-dark);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color .15s;
+    }
+
+    .crumb:hover {
+      text-decoration: underline;
+    }
+
+    .crumb.current {
+      color: var(--text-primary);
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .crumb.current:hover {
+      text-decoration: none;
+    }
+
+    .crumb-sep {
+      color: var(--chevron-color);
+    }
+
+    .up-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--wa-green-dark);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      margin-right: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      transition: background .15s var(--ease), transform .1s var(--ease);
+    }
+
+    .up-btn:hover {
+      background: rgba(0, 168, 132, .12);
+    }
+
+    .up-btn:active {
+      transform: scale(.95);
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 6% 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      background-color: var(--bg-chat);
+      background-image: var(--doodle-url);
+      background-repeat: repeat;
+      transition: background-color .25s var(--ease);
+    }
+
+    .doc-bubble {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 480px;
+      width: fit-content;
+      min-width: 260px;
+      cursor: pointer;
+      animation: slideUp .38s var(--ease) both;
+      transition: box-shadow .18s var(--ease), transform .12s var(--ease), background .25s var(--ease);
+    }
+
+    .doc-bubble:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .doc-bubble:active {
+      transform: translateY(0) scale(.99);
+    }
+
+    .doc-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 9px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      position: relative;
+    }
+
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-name {
+      font-size: 14.5px;
+      color: var(--text-primary);
+      font-weight: 500;
+      line-height: 1.32;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .doc-meta {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .doc-action {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 15px;
+      transition: .18s var(--ease);
+    }
+
+    .doc-bubble:hover .doc-action {
+      color: #fff;
+      background: var(--wa-green);
+    }
+
+    .folder-bubble .doc-icon {
+      background: rgba(134, 150, 160, .16);
+      color: var(--folder-color);
+    }
+
+    .read-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--chevron-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: transparent;
+      cursor: pointer;
+      transition: all .18s var(--ease);
+    }
+
+    .read-badge:hover {
+      border-color: var(--wa-green);
+      transform: scale(1.15);
+    }
+
+    .read-badge.is-read {
+      background: var(--wa-green);
+      border-color: var(--wa-green);
+      color: #fff;
+    }
+
+    .section-empty {
+      margin: auto;
+      text-align: center;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      opacity: .9;
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      font-size: 14px;
+      animation: fadeIn .3s var(--ease);
+    }
+
+    .section-empty i {
+      font-size: 30px;
+      color: var(--chevron-color);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .chat-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 14px;
+      padding: 40px;
+      background: var(--bg-header);
+      animation: fadeIn .4s var(--ease);
+      transition: background .25s var(--ease);
+    }
+
+    .chat-empty .ce-icon {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--wa-green-tint);
+      color: var(--wa-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+    }
+
+    .chat-empty .ce-title {
+      font-size: 27px;
+      font-weight: 300;
+      color: var(--text-primary);
+    }
+
+    .chat-empty .ce-sub {
+      max-width: 420px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .chat-empty .ce-note {
+      margin-top: 18px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width:767px) {
+      .sidebar {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .chat {
+        display: none;
+        width: 100%;
+      }
+
+      #app.chat-open .sidebar {
+        display: none;
+      }
+
+      #app.chat-open .chat {
+        display: flex;
+      }
+
+      .chat-back-btn {
+        display: flex;
+      }
+
+      .chat-body {
+        padding: 14px 4% 24px;
+      }
+
+      .doc-bubble {
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .brand-text .brand-title {
+        font-size: 17px;
+      }
+
+      .recent-card {
+        width: 118px;
+      }
+    }
+
+    @media (min-width:768px) and (max-width:1024px) {
+      .sidebar {
+        width: 340px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="sidebar">
+      <div class="sidebar-header" id="sidebarHeader"></div>
+      <div class="sidebar-list scroll" id="sidebarList"></div>
+      <div class="sidebar-footer" style="font-size: 16px;">Made With ❤️ by Rohan</div>
+    </div>
+    <div class="chat">
+      <div id="chatHeaderWrap"></div>
+      <div id="chatArea" class="scroll" style="flex:1;display:flex;flex-direction:column;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       DATA — mirrors the exact local folder structure
+       ========================================================= */
+    const fileTree = { "first year": { "sem I": { "Aptitude": { "type": "subject", "icon": "fa-solid fa-calculator", "files": { "quantitative_aptitude_for_competitive_examinations_by_rs_aggarwal.pdf": "pdf" } }, "Constitution of India": { "type": "subject", "icon": "fa-solid fa-scale-balanced", "files": { "Nature of Question Paper.pdf": "pdf", "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit I The Constituent Assembly and the Constitution": { "type": "folder", "00.introduction.pdf": "pdf", "A) Preamble of the Constitution.pdf": "pdf", "B) Features of the Constitution.pdf": "pdf", "C) Fundamental Rights of Indian Citizen.pdf": "pdf", "D) Fundamental Duties of Indian Citizen.pdf": "pdf" }, "Unit II  Democracy in India": { "type": "folder", "A) Meaning, Definition, Features and Types of the Democracy.pdf": "pdf", "B) Election commission of India - Structure, Power and Function.pdf": "pdf", "C) Good Governance - Meaning and Features.pdf": "pdf", "D) Indian Election and Voting Awareness Programme.pdf": "pdf" } }, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2025.pdf": "pdf", "October_November_2024.pdf": "pdf" }, "Question Bank": { "type": "folder", "Constitution of India  Question bank.pdf": "pdf", "Question Bank with Answer.pdf": "pdf" } } }, "Digital Electronics and Microprocessors": { "type": "subject", "icon": "fa-solid fa-microchip", "files": { "Practical question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit_II_Introduction to Microprocessor.pdf": "pdf", "Unit_I_Logic Gates Combinational and Sequential circuits.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2025.pdf": "pdf" } } }, "English For Communication-I": { "type": "subject", "icon": "fa-solid fa-comments", "files": { "Nature of the Question Paper.pdf": "pdf", "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit 1 Basics of Communication.pdf": "pdf", "Unit 2 Oral Communication .pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2024.pdf": "pdf", "October_November_ 2025.pdf": "pdf" } } }, "Introduction to IKS in Science": { "type": "subject", "icon": "fa-solid fa-atom", "files": { "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit I Bharatīya Civilization and Development of Knowledge System.pdf": "pdf", "Unit II Science and Mathematics.pdf": "pdf", "Unit III Life, Environment, and Health .pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2025.pdf": "pdf" } } }, "Introduction to Web Design": { "type": "subject", "icon": "devicon-html5-plain", "files": { "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "01.introduction to networking.pdf": "pdf", "02.Introduction To HTML.pdf": "pdf", "03.Elements of HTML.pdf": "pdf", "04.Introduction to CSS.pdf": "pdf", "05.CSS remaining notes.pdf": "pdf", "06.JavaScript.pdf": "pdf" }, "Practical Assignment": { "type": "folder", "Assignment 01.pdf": "pdf", "Assignment 02.pdf": "pdf", "Assignment 03.pdf": "pdf" }, "practical Exam Question Paper": { "type": "folder", "Practical_Exam_Oct_Nov_2025.pdf": "pdf" } } }, "Numerical Methods": { "type": "subject", "icon": "fa-solid fa-square-root-variable", "files": { "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Practical Exam Question Paper": { "type": "folder", "practicle exam.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "Office Automation": { "type": "subject", "icon": "fa-solid fa-briefcase", "files": { "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "00.COMPUTER SHORTCUTS.pdf": "pdf", "01.Unit_1_Introduction_to_Computer_and_MS_Word.pdf": "pdf", "02.Unit 2 MS-Excel.pdf": "pdf", "03.MS-Power point.pdf": "pdf", "04.Excel_Shortcut_Keys.pdf": "pdf" }, "Practical Assignment": { "type": "folder", "OA Practical Assignment.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November-2024.pdf": "pdf", "October_November_2025.pdf": "pdf", "Preliminary Examination OcUNov. 2024.pdf": "pdf" }, "Question Bank": { "type": "folder", "Question Bank Office Automation.pdf": "pdf" } } }, "OOP’S with C++-I": { "type": "subject", "icon": "devicon-cplusplus-plain", "files": { "practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "00.logic.pdf": "pdf", "01.1.2 & 1.3 Intro.to C lang & Input & output opr (1).pdf": "pdf", "03.Control Statement1.pdf": "pdf", "04.unit-I programming methodlogy.pdf": "pdf", "05.Function.pdf": "pdf", "06.Classes & Obj 2013-14.pdf": "pdf", "07.Constructor And Destructor 2013-14.pdf": "pdf", "08.Operator overloading.pdf": "pdf", "09.parameters.pdf": "pdf", "10.Type casting.pdf": "pdf", "11.Array And string.pdf": "pdf", "12.Classes & Obj 2013-14 (1).pdf": "pdf" }, "practical Exam Question Paper": { "type": "folder", "Practical_Exam_OOP_Set_K.pdf": "pdf" }, "Practicle Assignment": { "type": "folder", "Practical Assignment c++.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2024.pdf": "pdf", "October_November_ 2025.pdf": "pdf" } } }, "Python Programming-I": { "type": "subject", "icon": "python-logo-img", "files": { "Practical Question.pdf": "pdf", "syllabus.pdf": "pdf", "Home assignment": { "type": "folder", "Python home assignment 1 .pdf": "pdf" }, "Journal Assignments": { "type": "folder", "Python-I SEM-I 2025-26 batch journal assignments.pdf": "pdf" }, "Notes": { "type": "folder", "01.Unit-I   Basics of Python .pdf": "pdf", "02.Unit -2 Data Structure and Functions.pdf": "pdf", "DOC-20240910-WA0017..pdf": "pdf", "DocScanner 29-Oct-2025 5-55 pm.pdf": "pdf", "Python unit-2 Array & String.pdf": "pdf", "String function .pdf": "pdf", "unit-1 Introduction to Python final.pdf": "pdf", "Unit-2 dictonary methods.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Practical_Exam_Python1_Set_C.pdf": "pdf", "Practical_Exam_Python_Set_J.pdf": "pdf", "Practical_Exam_Python_Set_L.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "Question Bank": { "type": "folder", "Python Question bank.pdf": "pdf", "Question bank for practise.pdf": "pdf", "Question Bank On Function.pdf": "pdf" } } } }, "sem II": { "Advanced Web Designing": { "type": "subject", "icon": "devicon-bootstrap-plain", "files": { "Practical Question.pdf": "pdf", "Assignment": { "type": "folder", "Bootstrap assignment 03.pdf": "pdf", "jQuery Assignment 01.pdf": "pdf", "jQuery Assignment 02.pdf": "pdf" }, "Notes": { "type": "folder", "Bootstrap notes.pdf": "pdf", "JQuery Notes.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Practical_Exam_Adv_Web_Set_D.pdf": "pdf", "Practical_Exam_Adv_Web_Set_F.pdf": "pdf" } } }, "Discrete Mathematics": { "type": "subject", "icon": "fa-solid fa-shapes", "files": { "Practical Question.pdf": "pdf", "syllabus.pdf": "pdf", "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "English For Communication-II": { "type": "subject", "icon": "fa-solid fa-comments", "files": { "Nature of the Question Paper.pdf": "pdf", "syllabus.pdf": "pdf", "Notes": { "type": "folder", "unit 2.pdf": "pdf", "Unit I .pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf", "Question Paper.pdf": "pdf" } } }, "Environmental Studies": { "type": "subject", "icon": "fa-solid fa-leaf", "files": { "SYLLABUS.pdf": "pdf", "Notes": { "type": "folder", "environment notes.docx": "doc", "Environmental economics notes.pdf": "pdf", "Environmental studies Book.pdf": "pdf", "ESG English.pdf": "pdf", "Green Finance.pdf": "pdf", "Sustainable Development.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "EVs  Pyq .pdf": "pdf", "March_April _2026.pdf": "pdf", "March_April_2025.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "Question Bank": { "type": "folder", "All UG Environ Studies Question Bank.pdf": "pdf" } } }, "Introduction to Microcontroller and Embedded System": { "type": "subject", "icon": "fa-solid fa-robot", "files": { "Practical Question.pdf": "pdf", "syllabus.pdf": "pdf", "Notes": { "type": "folder", "UNit -1 Fundamental of Microcontroller_8051 (1)-1 (1).pdf": "pdf", "UNit -1 Fundamental of Microcontroller_8051 (1)-1.pdf": "pdf", "UNit -1 Fundamental of Microcontroller_8051 (1).pdf": "pdf", "Unit 2 Embedded system 1.pdf": "pdf" }, "Practical Notes": { "type": "folder", "8051 practical NEP ECS I Sem II 1.pdf": "pdf", "Algorithm Flowchart.pdf": "pdf", "flow chart.jpg": "img", "Keil micro vision procedure.pdf": "pdf", "keil micro vision work flow 1.pdf": "pdf", "led on off flow chart.jpg": "img", "microcntroller practiclal list.pdf.pdf": "pdf", "NEP practical slip 8051.doc": "doc" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "OOPS with C++-II": { "type": "subject", "icon": "devicon-cplusplus-plain", "files": { "Practical Question.pdf": "pdf", "syllabus.pdf": "pdf", "Notes": { "type": "folder", "All Inheritance Question.pdf": "pdf", "Exception.pdf": "pdf", "file .pdf": "pdf", "Inheritance and Runtime Polymorphism.pdf": "pdf", "Pointer to base class and Pointer to derived class(1).pdf": "pdf", "Stream and Command line argument.pdf": "pdf", "Unit -2 Exception Handling and Threading.pdf": "pdf" }, "Practical Assignment": { "type": "folder", "Practical Assignment No 02.pdf": "pdf", "Practical Assignment No 03.pdf": "pdf", "Practical Assignment No 1 .pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Practical_Exam_OOP_Set_A.pdf": "pdf", "Practical_Exam_OOP_Set_C.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "Test": { "type": "folder", "B Div Test.jpg": "img", "ECS-I Test No 1.pdf": "pdf" }, "Theory Assignment": { "type": "folder", "C++ Theory Assignment No 02.pdf": "pdf" } } }, "Python Programming -II": { "type": "subject", "icon": "python-logo-img", "files": { "Practical Question.pdf": "pdf", "syllabus.pdf": "pdf", "Home Assignment": { "type": "folder", "home assignment.pdf": "pdf" }, "Notes": { "type": "folder", "Unit -1   Modules and packages.pdf": "pdf", "Unit -2 Exception Handling and Threading (1).pdf": "pdf" }, "Practical Assignments": { "type": "folder", "python-II journl assignment.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Practical_Exam_Python2_Set_A_.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "Soft skin and personality development": { "type": "subject", "icon": "fa-solid fa-user-tie", "files": { "Course_Content.pdf": "pdf", "Soft Skills and Personality Development.pdf": "pdf" } }, "Software Engineering": { "type": "subject", "icon": "fa-solid fa-gears", "files": { "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Introduction to Software Engineering.pdf": "pdf", "Software Engineering Notes.pdf": "pdf", "Unit -1 SW Requirement.docx": "doc", "Unit-1.pdf": "pdf", "Unit-2 SE.pdf": "pdf" }, "Prevoius Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "Question Bank": { "type": "folder", "Software Engineering-Questions.pdf": "pdf" } } }, "Yoga Education": { "type": "subject", "icon": "fa-solid fa-om", "files": { "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit 1 yoga 206 final notes.pdf": "pdf", "Unit I  Yoga Education 1.pdf": "pdf"}, "Prevoius Year Question Paper": { "type": "folder", "march_april_2025.pdf": "pdf", "March_April_2026.pdf": "pdf", "October_November_ 2025.pdf": "pdf" } } } } }, "second year": { "sem III": { "ADVANCED PYTHON PROGRAMMING": { "type": "subject", "icon": "python-logo-img", "files": { "Practical Question.pdf": "pdf", "Stat and Python practical.pdf": "pdf", "SYLLABUS.pdf": "pdf", "Lab Assignmrnt": { "type": "folder", "Advanced Python Lab Assignment-1.pdf": "pdf" }, "notes": { "type": "folder", "Adv. Python Unit 1 final.pdf": "pdf", "Adv.Py. Unit 2 ECS-II (2).pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "DATA STRUCTURES USING C++": { "type": "subject", "icon": "devicon-cplusplus-plain", "files": { "Ds and Dbms practical.pdf": "pdf", "Practical Question.pdf": "pdf", "SYLLABUS.pdf": "pdf", "notes": { "type": "folder", "Unit-I Topic-III Stack 2025-26.pdf": "pdf", "Unit-I Topic-IV Queue 2025-26.pdf": "pdf", "Unit-I Topic-V  SORTING and Searchig 2025-26.pdf": "pdf", "Unit-II Topic-I Linked list 2025-26.pdf": "pdf", "Unit-II Topic-II Tree 2025-26.pdf": "pdf", "Unit_I_Topic_I,_II_Algo_ADT,_ARRAY_2024_25_ECS_2.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_april_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "program": { "type": "folder", "CIR_Q.txt": "txt", "EVAL.txt": "txt", "INTOPOST.txt": "txt", "INTOPRE.txt": "txt", "IRD.txt": "txt", "LIN_Q.txt": "txt", "STACK.txt": "txt", "VALIDITY.txt": "txt" } } }, "DATABASE MANAGEMENT SYSTEMS": { "type": "subject", "icon": "fa-solid fa-database", "files": { "Ds and Dbms practical.pdf": "pdf", "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "notes": { "type": "folder", "DDL commands.pdf": "pdf", "Relational Alegbra.pdf": "pdf", "Unit-I 25-26.pdf": "pdf", "Unit-II DBMS.pdf": "pdf", "Unit_I_intro_SQL_DDL_DML_TCL_DCL_Operators_built_fun_Clause_Integrity (2).pdf": "pdf", "Views.pdf": "pdf" }, "Practical Assignment": { "type": "folder", "finalPract_Assignemet_I_DBMS_ECS_II_Sem_III_.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "OPERATING SYSTEMS": { "type": "subject", "icon": "fa-solid fa-server", "files": { "Syllabus.pdf": "pdf", "notes": { "type": "folder", "O.S. Unit-2.pdf": "pdf", "Process Management(CPU Scheduling) B.Sc.(ECS)-II.pdf": "pdf", "Process synchronization B.Sc.(ECS)-II Div(A,B).pdf": "pdf", "Unit_1_Introduction_To_Operating System -2025-26.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "Theory Assignment": { "type": "folder", "Assignment No-1 Operating System.pdf": "pdf" } } }, "Reading Texts in Indian English-I": { "type": "subject", "icon": "fa-solid fa-book-open", "files": { "ENGLISH SYLLABUS.pdf": "pdf", "notes": { "type": "folder", "ECS II.pdf": "pdf", "Reading Texts in Indian English 1.pdf": "pdf", "Short Stories.pdf": "pdf", "the doctors world.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" }, "SY PPT": { "type": "folder", "Goodbye Party For Miss Pushpa T.pptx": "ppt", "PILGRIMAGE.pptx": "ppt" } } }, "STATISTICS FOR DATA SCIENCE  I": { "type": "subject", "icon": "fa-solid fa-chart-line", "files": { "Practical Question.pdf": "pdf", "Stat and Python practical.pdf": "pdf", "Syllabus.pdf": "pdf", "notes": { "type": "folder", "unit 1 population and sampling.pdf": "pdf", "unit 2 data condensation and graphical method.pdf": "pdf", "unit 3 measurement of central tendency.pdf": "pdf", "unit 4 measures of dispersion.pdf": "pdf", "unit 5 correlation.pdf": "pdf", "unit 6 Regression.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } }, "YOGA EDUCATION": { "type": "subject", "icon": "fa-solid fa-om", "files": { "syllabus.pdf": "pdf", "Notes": { "type": "folder", "Unit-1&2 Yoga NOTES.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf", "October_November_2025.pdf": "pdf" } } } }, "sem Iv": { "Computer Networks": { "type": "subject", "icon": "fa-solid fa-network-wired", "files": { "Syllabus.pdf": "pdf", "Previous Year Question Paper": { "type": "folder", "March_April_2025.pdf": "pdf" } } }, "Core Java": { "type": "subject", "icon": "fa-brands fa-java", "files": { "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "core_java_all_notes.pdf": "pdf", "Unit-I Sem-IV CoreJava PART-I.pdf": "pdf", "Unit-II Sem-IV  Exception handling, Thread, I-O.pdf": "pdf", "Unit_I_Sem_IV_CoreJava_Part_II_Inheritance,_Interface,_Package.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Exam_Paper_Java_DBMS_Set_A.pdf": "pdf", "Practical_Exam_Core_Java_Set_A.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf" } } }, "Reading Texts in Indian English-II": { "type": "subject", "icon": "fa-solid fa-book-open", "files": { "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "Anreji.pdf": "pdf", "Reading Texts in Indian English-II.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf" } } }, "Relational Database Management System": { "type": "subject", "icon": "fa-solid fa-table-list", "files": { "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "BCS-DBMS Unit-4 Recovery Atomictiy.docx.pdf": "pdf", "rdbms_final.pdf": "pdf", "Unit 1.1-1.2 (1).pdf": "pdf", "Unit 1.1-1.2.pdf": "pdf", "Unit 2.1.pdf": "pdf", "Unit 2.2.pdf": "pdf", "Unit 2.3.pdf": "pdf", "Unit 2.4.pdf": "pdf", "Unit 2.5.pdf": "pdf", "Unit 2.6.pdf": "pdf", "Unit 2.7.pdf": "pdf", "Unit2.5.1Explicit Cursor Attributes.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "Practical_Exam_RDBMS_Set_A.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf" } } }, "Software Testing and Quality Assurance": { "type": "subject", "icon": "fa-solid fa-bug", "files": { "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "MCQ  ST.pdf": "pdf", "Software Testing Unit 1.pdf": "pdf", "Software testing unit 2 F.pdf": "pdf" }, "Previous Year Practical Question": { "type": "folder", "Practical_Exam_Testing_QA_Set_A.pdf": "pdf", "Practical_Exam_Testing_QA_Set_C.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf" } } }, "Statistics for Data Science - II": { "type": "subject", "icon": "fa-solid fa-chart-line", "files": { "Practical Question.pdf": "pdf", "Syllabus.pdf": "pdf", "Notes": { "type": "folder", "statistics -2.pdf": "pdf" }, "Practical Exam Question Paper": { "type": "folder", "stat.pdf": "pdf" }, "Previous Year Question Paper": { "type": "folder", "March_April_2026.pdf": "pdf" } } } } }, "third year": { "sem v": {}, "sem vI": {} } };
+
+    /* =========================================================
+       CONFIG / LOOKUPS
+       ========================================================= */
+    const YEAR_LABELS = { "first year": "First Year", "second year": "Second Year", "third year": "Third Year" };
+    const YEAR_ORDINAL = { "first year": "1st", "second year": "2nd", "third year": "3rd" };
+    const FILE_ICONS = {
+      pdf: { icon: "fa-file-pdf", color: "#e02f2f" },
+      doc: { icon: "fa-file-word", color: "#1f7aec" },
+      ppt: { icon: "fa-file-powerpoint", color: "#e8792b" },
+      img: { icon: "fa-file-image", color: "#9c4fd6" },
+      txt: { icon: "fa-file-lines", color: "#6b7680" },
+      exe: { icon: "fa-gear", color: "#e8792b" },
+      file: { icon: "fa-file", color: "#6b7680" }
+    };
+
+    /* =========================================================
+       PERSISTENCE (per-device, this browser only)
+       ========================================================= */
+    function safeGet(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch (e) { return fallback; }
+    }
+    function safeSet(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* storage unavailable, ignore */ }
+    }
+    function getRecent() { return safeGet('ecshub_recent', []); }
+    function pushRecent(year, sem, key) {
+      let list = getRecent().filter(r => !(r.year === year && r.sem === sem && r.key === key));
+      list.unshift({ year, sem, key });
+      safeSet('ecshub_recent', list.slice(0, 6));
+    }
+    function getProgress() { return safeGet('ecshub_progress', {}); }
+    function isRead(path) { return !!getProgress()[path]; }
+    function markRead(path) {
+      const m = getProgress();
+      if (!m[path]) { m[path] = true; safeSet('ecshub_progress', m); }
+    }
+    function toggleRead(path) {
+      const m = getProgress();
+      if (m[path]) delete m[path]; else m[path] = true;
+      safeSet('ecshub_progress', m);
+    }
+    function collectFilePaths(node, prefix) {
+      let out = [];
+      for (const [k, v] of Object.entries(node)) {
+        if (k === "type") continue;
+        if (typeof v === "object") out = out.concat(collectFilePaths(v, [...prefix, k]));
+        else out.push([...prefix, k].join("/"));
+      }
+      return out;
+    }
+    function subjectProgress(year, sem, key, subjectObj) {
+      const paths = collectFilePaths(subjectObj.files || {}, [year, sem, key]);
+      const progress = getProgress();
+      const done = paths.filter(p => progress[p]).length;
+      return { done, total: paths.length };
+    }
+
+    /* ---------- Theme ---------- */
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      safeSet('ecshub_theme', dark ? 'dark' : 'light');
+    }
+    function toggleTheme() {
+      applyTheme(!document.body.classList.contains('dark'));
+      renderSidebar();
+      renderChat();
+    }
+    function themeBtnHtml() {
+      const dark = document.body.classList.contains('dark');
+      return `<button class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode"><i class="fa-solid ${dark ? 'fa-sun' : 'fa-moon'}"></i></button>`;
+    }
+    (function initTheme() {
+      const saved = safeGet('ecshub_theme', null);
+      if (saved === 'dark') document.body.classList.add('dark');
+      else if (saved === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+    })();
+
+    /* =========================================================
+       STATE
+       ========================================================= */
+    let sidebarLevel = "years";   // years | sems | subjects
+    let sidebarYear = null;
+    let sidebarSem = null;
+    let chatCtx = null;           // { year, sem, subjectKey, subjectObj, path:[] }
+    const LEVEL_DEPTH = { years: 0, sems: 1, subjects: 2 };
+    let lastSidebarDepth = 0;
+    let lastChatDepth = -1; // -1 = empty state
+
+    const el = {
+      app: document.getElementById("app"),
+      sidebarHeader: document.getElementById("sidebarHeader"),
+      sidebarList: document.getElementById("sidebarList"),
+      chatHeaderWrap: document.getElementById("chatHeaderWrap"),
+      chatArea: document.getElementById("chatArea")
+    };
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+    function semRoman(k) { return k.replace(/sem/i, "").trim().toUpperCase(); }
+    function semLabel(k) { return "Semester " + semRoman(k); }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+    function escJs(s) { return String(s).replace(/\\/g, "\\\\").replace(/'/g, "\\'"); }
+    function countFiles(obj) {
+      let c = 0;
+      for (const [k, v] of Object.entries(obj)) {
+        if (k === "type" || k === "icon") continue;
+        if (typeof v === "object") c += countFiles(v);
+        else c++;
+      }
+      return c;
+    }
+    const DEVICON_COLORS = {
+      'devicon-cplusplus-plain': '#00599C',
+      'devicon-html5-plain': '#E34F26',
+      'devicon-bootstrap-plain': '#7952B3',
+      'fa-brands fa-java': '#F89820'
+    };
+    const LOGO_IMAGES = {
+      'python-logo-img': {
+        src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+        fallbackIcon: 'fa-brands fa-python',
+        fallbackColor: '#3776AB'
+      }
+    };
+    function isDevicon(iconClass) { return !!DEVICON_COLORS[iconClass] || !!LOGO_IMAGES[iconClass]; }
+    function handleLogoImgError(imgEl, fallbackIconClass, fallbackColor) {
+      const i = document.createElement('i');
+      i.className = fallbackIconClass;
+      i.style.color = fallbackColor;
+      imgEl.replaceWith(i);
+    }
+    function iconTag(iconClass) {
+      // iconClass already contains the full family, e.g. "fa-solid fa-code" or "fa-brands fa-java"
+      const logo = LOGO_IMAGES[iconClass];
+      if (logo) {
+        return `<img src="${logo.src}" alt="" style="width:62%;height:62%;object-fit:contain;" onerror="handleLogoImgError(this,'${logo.fallbackIcon}','${logo.fallbackColor}')">`;
+      }
+      const brandColor = DEVICON_COLORS[iconClass];
+      if (brandColor) return `<i class="${iconClass}" style="color:${brandColor};"></i>`;
+      return `<i class="${iconClass}"></i>`;
+    }
+    function subjectAvatar(name, icon) {
+      if (icon === "yoga-img") {
+        return `<div class="row-avatar">
+      <img src="yoga.jpg" alt="${esc(name)}"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <i class="fa-solid fa-person-walking" style="display:none;font-size:19px;"></i>
+    </div>`;
+      }
+      const brandCls = isDevicon(icon) ? ' avatar-brand' : '';
+      return `<div class="row-avatar${brandCls}">${iconTag(icon)}</div>`;
+    }
+    function animateSwap(container, newDepth, lastDepth) {
+      container.classList.remove('anim-right', 'anim-left', 'anim-fade');
+      void container.offsetWidth; // reflow to restart animation
+      if (lastDepth === -999 || newDepth === lastDepth) container.classList.add('anim-fade');
+      else if (newDepth > lastDepth) container.classList.add('anim-right');
+      else container.classList.add('anim-left');
+    }
+
+    /* =========================================================
+       SIDEBAR RENDER
+       ========================================================= */
+    function renderRecentStrip() {
+      const recent = getRecent().filter(r => fileTree[r.year] && fileTree[r.year][r.sem] && fileTree[r.year][r.sem][r.key]);
+      if (recent.length === 0) return "";
+      let cards = "";
+      recent.forEach((r, i) => {
+        const subj = fileTree[r.year][r.sem][r.key];
+        const { done, total } = subjectProgress(r.year, r.sem, r.key, subj);
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        const iconHtml = subj.icon === "yoga-img"
+          ? `<i class="fa-solid fa-person-walking"></i>`
+          : iconTag(subj.icon);
+        cards += `
+      <div class="recent-card" style="animation-delay:${i * 40}ms" onclick="openFromRecent('${escJs(r.year)}','${escJs(r.sem)}','${escJs(r.key)}')">
+        <div class="rc-icon${isDevicon(subj.icon) ? ' rc-icon-brand' : ''}">${iconHtml}</div>
+        <div class="rc-name">${esc(r.key)}</div>
+        <div class="rc-progress"><div class="rc-progress-fill" style="width:${pct}%"></div></div>
+        <div class="rc-pct">${total ? done + "/" + total + " reviewed" : "No files"}</div>
+      </div>`;
+      });
+      return `
+    <div class="recent-strip">
+      <div class="rs-label"><i class="fa-solid fa-clock-rotate-left"></i> Continue your journey</div>
+      <div class="recent-row">${cards}</div>
+    </div>`;
+    }
+
+    function openFromRecent(year, sem, key) {
+      sidebarYear = year; sidebarSem = sem; sidebarLevel = "subjects";
+      openSubject(year, sem, key);
+    }
+
+    function renderSidebar() {
+      const newDepth = LEVEL_DEPTH[sidebarLevel];
+
+      if (sidebarLevel === "years") {
+        el.sidebarHeader.innerHTML = `
+      <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="brand-text">
+        <div class="brand-title">ECSHub</div>
+        <div class="brand-sub">Study materials for B.Sc. ECS</div>
+      </div>
+      ${themeBtnHtml()}`;
+        let rows = renderRecentStrip();
+        Object.keys(fileTree).forEach(year => {
+          const semCount = Object.keys(fileTree[year]).length;
+          rows += `
+        <div class="list-row" onclick="goSemesters('${escJs(year)}')">
+          <div class="row-avatar">${YEAR_ORDINAL[year] || ""}</div>
+          <div class="row-body">
+            <div class="row-title">${esc(YEAR_LABELS[year] || year)}</div>
+            <div class="row-sub">${semCount} semester${semCount !== 1 ? "s" : ""}</div>
+          </div>
+          <i class="fa-solid fa-chevron-right row-chevron"></i>
+        </div>`;
+        });
+        el.sidebarList.innerHTML = rows;
+      }
+
+      else if (sidebarLevel === "sems") {
+        el.sidebarHeader.innerHTML = `
+      <button class="icon-btn" onclick="goYears()"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="sidebar-header-text">
+        <div class="sh-title">${esc(YEAR_LABELS[sidebarYear] || sidebarYear)}</div>
+        <div class="sh-sub">Select a semester</div>
+      </div>
+      ${themeBtnHtml()}`;
+        let rows = "";
+        Object.keys(fileTree[sidebarYear]).forEach(sem => {
+          const subCount = Object.keys(fileTree[sidebarYear][sem]).length;
+          rows += `
+        <div class="list-row" onclick="goSubjects('${escJs(sem)}')">
+          <div class="row-avatar">${esc(semRoman(sem))}</div>
+          <div class="row-body">
+            <div class="row-title">${esc(semLabel(sem))}</div>
+            <div class="row-sub">${subCount ? subCount + " subject" + (subCount !== 1 ? "s" : "") : "No subjects added yet"}</div>
+          </div>
+          <i class="fa-solid fa-chevron-right row-chevron"></i>
+        </div>`;
+        });
+        el.sidebarList.innerHTML = rows;
+      }
+
+      else if (sidebarLevel === "subjects") {
+        el.sidebarHeader.innerHTML = `
+      <button class="icon-btn" onclick="goSemesters('${escJs(sidebarYear)}')"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="sidebar-header-text">
+        <div class="sh-title">${esc(semLabel(sidebarSem))}</div>
+        <div class="sh-sub">${esc(YEAR_LABELS[sidebarYear] || sidebarYear)}</div>
+      </div>
+      ${themeBtnHtml()}`;
+        const subjects = fileTree[sidebarYear][sidebarSem];
+        const keys = Object.keys(subjects);
+        if (keys.length === 0) {
+          el.sidebarList.innerHTML = `
+        <div class="empty-list-msg">
+          <i class="fa-regular fa-folder-open"></i>
+          No subjects added yet for this semester.
+        </div>`;
+        } else {
+          let rows = "";
+          keys.forEach(key => {
+            const subj = subjects[key];
+            const fCount = countFiles(subj.files || {});
+            const { done } = subjectProgress(sidebarYear, sidebarSem, key, subj);
+            const active = chatCtx && chatCtx.year === sidebarYear && chatCtx.sem === sidebarSem && chatCtx.subjectKey === key;
+            rows += `
+          <div class="list-row ${active ? 'row-active' : ''}" onclick="openSubject('${escJs(sidebarYear)}','${escJs(sidebarSem)}','${escJs(key)}')">
+            ${subjectAvatar(key, subj.icon)}
+            <div class="row-body">
+              <div class="row-title">${esc(key)}</div>
+              <div class="row-sub">${fCount} file${fCount !== 1 ? "s" : ""}${done > 0 ? ' · <span class="done-tag">' + done + '/' + fCount + ' done</span>' : ''}</div>
+            </div>
+            <i class="fa-solid fa-chevron-right row-chevron"></i>
+          </div>`;
+          });
+          el.sidebarList.innerHTML = rows;
+        }
+      }
+
+      animateSwap(el.sidebarList, newDepth, lastSidebarDepth);
+      lastSidebarDepth = newDepth;
+    }
+
+    function goYears() { sidebarLevel = "years"; sidebarYear = null; sidebarSem = null; renderSidebar(); }
+    function goSemesters(year) { sidebarLevel = "sems"; sidebarYear = year; sidebarSem = null; renderSidebar(); }
+    function goSubjects(sem) { sidebarLevel = "subjects"; sidebarSem = sem; renderSidebar(); }
+
+    /* =========================================================
+       CHAT (RIGHT PANEL) RENDER
+       ========================================================= */
+    function renderChat() {
+      if (!chatCtx) {
+        el.chatHeaderWrap.innerHTML = "";
+        el.chatArea.innerHTML = `
+      <div class="chat-empty">
+        <div class="ce-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="ce-title">ECSHub</div>
+        <div class="ce-sub">Select a subject from the left to view its syllabus, notes, previous year papers, practicals and question banks.</div>
+        <div class="ce-note"><i class="fa-solid fa-lock"></i> End-to-end structured learning — no logins, no ads.</div>
+      </div>`;
+        lastChatDepth = -1;
+        return;
+      }
+
+      const { year, sem, subjectKey, subjectObj, path } = chatCtx;
+      const { done, total } = subjectProgress(year, sem, subjectKey, subjectObj);
+      const pct = total ? Math.round((done / total) * 100) : 0;
+
+      const avatarHtml = subjectObj.icon === "yoga-img"
+        ? `<div class="row-avatar" style="width:40px;height:40px;">
+         <img src="yoga.jpg" alt="${esc(subjectKey)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         <i class="fa-solid fa-person-walking" style="display:none;font-size:16px;"></i>
+       </div>`
+        : `<div class="row-avatar${isDevicon(subjectObj.icon) ? ' avatar-brand' : ''}" style="width:40px;height:40px;font-size:16px;">${iconTag(subjectObj.icon)}</div>`;
+
+      el.chatHeaderWrap.innerHTML = `
+    <div class="chat-header">
+      <button class="icon-btn chat-back-btn" onclick="closeChat()"><i class="fa-solid fa-arrow-left"></i></button>
+      ${avatarHtml}
+      <div style="flex:1;min-width:0;">
+        <div class="chat-header-title">${esc(subjectKey)}</div>
+        <div class="chat-header-sub">${esc(YEAR_LABELS[year] || year)} • ${esc(semLabel(sem))}${total ? ' • ' + done + '/' + total + ' reviewed' : ''}</div>
+        ${total ? `<div class="chat-progress-track"><div class="chat-progress-fill" style="width:${pct}%"></div></div>` : ''}
+      </div>
+      ${themeBtnHtml()}
+    </div>
+    <div class="breadcrumb-bar" id="breadcrumbBar"></div>`;
+
+      let crumbHtml = "";
+      if (path.length > 0) {
+        crumbHtml += `<span class="up-btn" onclick="popPath()"><i class="fa-solid fa-arrow-turn-up" style="transform:rotate(-90deg);"></i> Back</span>`;
+      }
+      crumbHtml += `<span class="crumb ${path.length === 0 ? 'current' : ''}" onclick="jumpPath(0)">${esc(subjectKey)}</span>`;
+      path.forEach((p, i) => {
+        const isLast = i === path.length - 1;
+        crumbHtml += `<span class="crumb-sep">›</span><span class="crumb ${isLast ? 'current' : ''}" onclick="jumpPath(${i + 1})">${esc(p)}</span>`;
+      });
+      document.getElementById("breadcrumbBar").innerHTML = crumbHtml;
+
+      let node = subjectObj.files || {};
+      for (const p of path) node = node[p];
+
+      const entries = Object.entries(node).filter(([k]) => k !== "type");
+      const folders = entries.filter(([, v]) => typeof v === "object");
+      const files = entries.filter(([, v]) => typeof v === "string");
+      const combined = [...folders, ...files];
+
+      const newDepth = path.length + 1; // +1 so a fresh subject (depth0) differs from empty(-1)
+
+      if (combined.length === 0) {
+        el.chatArea.innerHTML = `<div class="chat-body"><div class="section-empty"><i class="fa-regular fa-folder-open"></i>No files here yet.</div></div>`;
+        animateSwap(el.chatArea.firstElementChild, newDepth, lastChatDepth);
+        lastChatDepth = newDepth;
+        return;
+      }
+
+      let bubbles = "";
+      combined.forEach(([name, val], idx) => {
+        const delay = Math.min(idx * 40, 360);
+        if (typeof val === "object") {
+          const itemCount = countFiles(val);
+          bubbles += `
+        <div class="doc-bubble folder-bubble" style="animation-delay:${delay}ms" onclick="pushPath('${escJs(name)}')">
+          <div class="doc-icon"><i class="fa-solid fa-folder"></i></div>
+          <div class="doc-info">
+            <div class="doc-name">${esc(name)}</div>
+            <div class="doc-meta">${itemCount} item${itemCount !== 1 ? "s" : ""}</div>
+          </div>
+          <div class="doc-action"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>`;
+        } else {
+          const meta = FILE_ICONS[val] || FILE_ICONS.file;
+          const fullPath = [year, sem, subjectKey, ...path, name].join("/");
+          const read = isRead(fullPath);
+          bubbles += `
+        <div class="doc-bubble" style="animation-delay:${delay}ms" onclick="openFile('${escJs(name)}')">
+          <div class="doc-icon" style="background:${meta.color}1f;color:${meta.color};">
+            <i class="fa-solid ${meta.icon}"></i>
+            <span class="read-badge ${read ? 'is-read' : ''}" onclick="event.stopPropagation(); toggleReadUI('${escJs(fullPath)}')" title="${read ? 'Mark as unread' : 'Mark as read'}"><i class="fa-solid fa-check"></i></span>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">${esc(name)}</div>
+            <div class="doc-meta">${val}</div>
+          </div>
+          <div class="doc-action"><i class="fa-solid fa-arrow-down"></i></div>
+        </div>`;
+        }
+      });
+
+      el.chatArea.innerHTML = `<div class="chat-body">${bubbles}</div>`;
+      animateSwap(el.chatArea.firstElementChild, newDepth, lastChatDepth);
+      lastChatDepth = newDepth;
+    }
+
+    function pushPath(name) { chatCtx.path.push(name); renderChat(); }
+    function popPath() { chatCtx.path.pop(); renderChat(); }
+    function jumpPath(idx) { chatCtx.path = chatCtx.path.slice(0, idx); renderChat(); }
+
+    function toggleReadUI(path) {
+      toggleRead(path);
+      renderChat();
+      if (sidebarLevel === "subjects") renderSidebar();
+    }
+
+    function openSubject(year, sem, key) {
+      const subjectObj = fileTree[year][sem][key];
+      chatCtx = { year, sem, subjectKey: key, subjectObj, path: [] };
+      pushRecent(year, sem, key);
+      lastChatDepth = -999; // force fade rather than directional slide on fresh open
+      renderChat();
+      renderSidebar();
+      if (window.innerWidth < 768) {
+        el.app.classList.add("chat-open");
+      }
+    }
+
+    function closeChat() {
+      el.app.classList.remove("chat-open");
+    }
+
+    function openFile(name) {
+      const parts = [chatCtx.year, chatCtx.sem, chatCtx.subjectKey, ...chatCtx.path, name];
+      const fullPath = parts.join("/");
+      markRead(fullPath);
+      window.open(encodeURI(fullPath), "_blank");
+      renderChat();
+      if (sidebarLevel === "subjects") renderSidebar();
+    }
+
+    /* =========================================================
+       INIT
+       ========================================================= */
+    renderSidebar();
+    renderChat();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+#include<iostream.h>
+#include<conio.h>
+#include<process.h>
+#define   max  5
+class     ird
+{
+   int    item[max];
+   int    left,right;
+   public:
+   void  create(ird*);
+   void  insert(ird*,int);
+   int   rem_left(ird*);
+   int   rem_right(ird*);
+   void  display(ird*);
+};
+void   ird::create(ird   *p)
+{
+     p->left=p->right=-1;
+     cout<<"\nIRD is created..";
+}
+void   ird::insert(ird *p,int  x)
+{
+    if(p->right==max-1)  //full
+    {
+      cout<<"\nIRD overflows..";
+    }
+    else
+    {
+       ++p->right;
+       p->item[p->right]=x;
+       cout<<"\nElement is Inserted..";
+    }
+}
+int   ird::rem_left(ird   *p)
+{
+   if(p->left==p->right)
+   {
+      cout<<"\nIRD underflows...";
+      return(0);
+   }
+   else
+   {
+     ++p->left;
+     return(p->item[p->left]);
+   }
+}
+int   ird::rem_right(ird   *p)
+{
+   if(p->left==p->right)
+   {
+      cout<<"\nIRD underflows...";
+      return(0);
+   }
+   else
+   {
+     return(p->item[p->right--]);
+   }
+}
+void    ird::display(ird   *p)
+{
+   int  i;
+   for(i=p->left+1;i<=p->right;i++)
+   {
+      cout<<"\t"<<p->item[i];
+   }
+}
+void   main()
+{
+    int  ch,x,z;
+    clrscr();
+    ird   obj;
+    ird   *p,q;
+    p=&q;
+do
+{
+    cout<<"\nEnter your choice: ";
+    cout<<"\n1:Create\n2:Insert\n3:Remove Left\n4:Remove Right\n5:Display\n6:Exit   ";
+    cin>>ch;
+    switch(ch)
+    {
+       case    1:
+		obj.create(p);
+		break;
+       case    2:
+		cout<<"\nEnter element= ";
+		cin>>x;
+		obj.insert(p,x);
+		break;
+       case   3:
+		z=obj.rem_left(p);
+		cout<<"\nRemoved Ele= "<<z;
+		break;
+       case   4:
+		z=obj.rem_right(p);
+		cout<<"\nRemoved Ele= "<<z;
+		break;
+       case   5:
+		obj.display(p);
+		break;
+       case   6:
+		exit(0);
+		break;
+       }
+    }while(ch!=6);
+    getch();
+}
+
+

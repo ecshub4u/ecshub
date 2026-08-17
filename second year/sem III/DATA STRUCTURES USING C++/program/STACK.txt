@@ -1,0 +1,157 @@
+#include<iostream.h>
+#include<process.h>
+#include<conio.h>
+#define  max   5
+class   stack
+{
+   int item[max],top;
+public:
+   void  create(stack*);
+   void  isempty(stack*);
+   void  isfull(stack*);
+   void  push(stack*,int);
+   int   pop(stack*);
+   void  display(stack*);
+};
+void   stack::create(stack   *p)
+{
+  p->top=-1;
+  cout<<"\nStack is created...";
+}
+void   stack::isempty(stack   *p)
+{
+    if(p->top==-1)
+    {
+      cout<<"\nStack is EMPTY..";
+    }
+    else
+    {
+       cout<<"\nStack is NOT empty...";
+    }
+}
+
+void    stack::isfull(stack   *p)
+{
+   if(p->top==max-1)
+   {
+     cout<<"\nStack is FULL ";
+   }
+   else
+   {
+     cout<<"\nStack is NOT full ";
+   }
+}
+void   stack::push(stack  *p,int   x)
+{
+   if(p->top==max-1)
+   {
+      cout<<"\nStack overflows...";
+   }
+   else
+   {
+      ++p->top;
+      p->item[p->top]=x;
+      cout<<"\nElement is pushed...";
+   }
+}
+int   stack::pop(stack   *p)
+{
+   if(p->top==-1)
+   {
+     cout<<"\nStack UNderflows..";
+     return 0;
+   }
+   else
+   {
+      return(p->item[p->top--]);
+   }
+}
+
+void   stack::display(stack  *p)
+{
+   int   i;
+   for(i=p->top;i>=0;i--)
+   {
+      cout<<"\n"<<p->item[i];
+   }
+}
+
+void   main()
+{
+   int  ch,n,z;
+   clrscr();
+   stack   obj;
+   stack   *p,q;
+   p=&q;  //Initialization of ptr.
+do
+{
+   cout<<"\nEnter your choice :";
+   cout<<"\n1:Create\n2:Isempty\n3:Isfull\n4:Push\n5:Pop\n6:Display\n7:Exit  =";
+   cin>>ch;
+   switch(ch)
+   {
+      case   1:
+	      obj.create(p);  //call
+	      break;
+      case   2:
+	      obj.isempty(p);   //call
+	      break;
+      case   3:
+	      obj.isfull(p);  //call
+	      break;
+      case   4:
+	      cout<<"\nEnter val to push: ";
+	      cin>>n;
+	      obj.push(p,n);   //call
+	      break;
+      case   5:
+	      z=obj.pop(p);  //call
+	      cout<<"\nPopped val="<<z;
+	      break;
+      case    6:
+		obj.display(p);  //call
+		break;
+      case    7:
+		exit(1);
+   }
+}while(ch!=7);
+   getch();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+#include<iostream.h>
+#include<conio.h>
+#define  max  50
+class   stack
+{
+     public:
+    int item[max],top;
+	void   create(stack*);
+	void   push(stack*,int);
+	int    pop(stack*);
+};
+void    stack::create(stack   *p)
+{
+  p->top=-1;
+}
+void   stack::push(stack *p,int  x)
+{
+     if(p->top==max-1)
+     {
+	cout<<"\nStack overflows..";
+     }
+     else
+     {
+	++p->top;
+	p->item[p->top]=x;
+     }
+}
+
+int    stack::pop(stack   *p)
+{
+    if(p->top==-1)
+    {
+       cout<<"\nStack undeflows...";
+       return(0);
+    }
+    else
+    {
+      return(p->item[p->top--]);
+    }
+}
+void   main()
+{
+     char  exp[50],ch;
+     int   i=0,t=0;
+     clrscr();
+     stack  *p,q,obj;
+     p=&q;
+     obj.create(p);   //stack create
+     cout<<"\nEnter any Exp=   ";
+     cin>>exp;
+     while(exp[i]!='\0')
+     {
+	  if(exp[i]=='('||exp[i]=='['||exp[i]=='{')
+	  {
+	      obj.push(p,exp[i]);
+	  }
+	  else    if(exp[i]==')'||exp[i]==']'||exp[i]=='}')
+	  {
+	       ch=obj.pop(p);
+	       if((exp[i]==')')!=(ch=='(')||(exp[i]==']')!=(ch=='[')||(exp[i]=='}')!=(ch=='{'))
+	       {
+		  t=1;
+		  break;
+	       }
+	  }
+	 i++;
+     }
+     if(p->top!=-1 || t==1)
+     {
+	cout<<"\nExp is Invalid  ";
+     }
+     else
+     {
+       cout<<"\nExp is Valid ";
+     }
+     getch();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
