@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ecshub4u.github.io/ecshub/sitemap.xml
