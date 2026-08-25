@@ -309,9 +309,12 @@ def url_encode_path(relative_path: Path) -> str:
     """
     from urllib.parse import quote
 
+    # Keep only RFC 3986 unreserved characters plus "/" as path separators.
+    # This percent-encodes characters such as "+", "&", "%", apostrophes,
+    # brackets, and other punctuation for reliable sitemap URLs.
     return quote(
         relative_path.as_posix(),
-        safe="/:@-._~!$&'()*+,;=",
+        safe="/-._~",
     )
 
 
