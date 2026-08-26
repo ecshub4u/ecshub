@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,6 +42,9 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated changes to commit."
           else
-            git commit -m "Auto-update ECSHub website"
-            git push
+            git commit -m "Auto-update ECSHub website [skip ci]"
+
+            git pull --rebase origin main
+
+            git push origin main
           fi
