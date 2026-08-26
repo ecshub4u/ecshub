@@ -1,0 +1,45 @@
+name: Update ECSHub website and study material
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'first year/**'
+      - 'second year/**'
+      - 'third year/**'
+      - 'update.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run ECSHub updater
+        run: python update.py
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add index.html sitemap.xml
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Auto-update ECSHub website"
+            git push
+          fi
