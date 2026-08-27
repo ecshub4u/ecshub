@@ -42,7 +42,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated changes to commit."
           else
-            git commit -m "Auto-update ECSHub website [skip ci]"
+            git commit -m "Auto-update ECSHub website"
 
             git pull --rebase origin main
 
