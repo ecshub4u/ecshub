@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
 permissions:
@@ -19,20 +20,29 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
+
+      # 1. Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 2. Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
+      # 3. Update index.html and sitemap.xml
       - name: Run Website Updater
         run: python update.py
 
+      # 4. Commit generated changes locally
       - name: Commit Generated Files
         run: |
           git config user.name "github-actions[bot]"
@@ -46,18 +56,22 @@ jobs:
             git commit -m "auto: sync website data [skip ci]"
           fi
 
+      # 5. Get the latest main branch and rebase
       - name: Rebase Onto Latest Main
         run: |
           git fetch origin main
           git rebase origin/main
 
+      # 6. Push the final generated state
       - name: Push Generated State
         run: |
           git push origin HEAD:main
 
+      # 7. Configure GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # 8. Prepare a clean production website
       - name: Prepare Production Site
         run: |
           rm -rf _site
@@ -72,11 +86,13 @@ jobs:
             --exclude='README.md' \
             ./ _site/
 
+      # 9. Upload the production site as Pages artifact
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "_site"
 
+      # 10. Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
