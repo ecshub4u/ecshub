@@ -1,4 +1,5 @@
-
+/*write a menu driven program to impliment singlly linear 
+linked list with all cases of insert and remove operation*/
 #include<iostream.h>
 #include<process.h>
 #include<conio.h>
@@ -190,7 +191,7 @@ void     node::display()
 }
 
 void   main()
-y{
+{
    int  n,ch,z,af;
     clrscr();
     node     obj;
