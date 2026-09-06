@@ -324,107 +324,7 @@
       transition: background .25s var(--ease), color .25s var(--ease);
     }
 
-    /* Continue Your Journey strip */
-    .recent-strip {
-      padding: 14px 16px 6px;
-      border-bottom: 1px solid var(--divider-color);
-    }
 
-    .recent-strip .rs-label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .recent-row {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 12px;
-    }
-
-    .recent-row::-webkit-scrollbar {
-      height: 0;
-    }
-
-    .recent-card {
-      flex: 0 0 auto;
-      width: 132px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      cursor: pointer;
-      transition: transform .15s var(--ease), box-shadow .15s var(--ease);
-      animation: popIn .3s var(--ease) both;
-      touch-action: manipulation;
-    }
-
-    .recent-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .recent-card:active {
-      transform: scale(.97);
-    }
-
-    .recent-card .rc-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--wa-green-tint);
-      color: var(--wa-green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .recent-card .rc-icon.rc-icon-brand {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-    }
-
-    .recent-card .rc-name {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.3;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 32px;
-    }
-
-    .recent-card .rc-progress {
-      margin-top: 8px;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--track-color);
-      overflow: hidden;
-    }
-
-    .recent-card .rc-progress-fill {
-      height: 100%;
-      background: var(--wa-green);
-      border-radius: 2px;
-      transition: width .3s var(--ease);
-    }
-
-    .recent-card .rc-pct {
-      font-size: 10.5px;
-      color: var(--text-muted);
-      margin-top: 5px;
-    }
 
     .list-row {
       display: flex;
@@ -464,6 +364,42 @@
       font-size: 18px;
       font-weight: 600;
       overflow: hidden;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .new-dot-badge {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--wa-green);
+      border: 2.5px solid var(--bg-sidebar);
+    }
+
+    .doc-icon .new-dot-badge {
+      border-color: var(--bg-chat);
+      top: -3px;
+      right: -3px;
+    }
+
+    .new-pill {
+      display: inline-block;
+      background: var(--wa-green);
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 999px;
+      margin-left: 6px;
+      letter-spacing: .3px;
+      vertical-align: middle;
     }
 
     .row-avatar img {
@@ -546,6 +482,55 @@
       border-bottom: 1px solid var(--border-color);
       z-index: 2;
       transition: background .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    /* ---------- In-app PDF viewer ---------- */
+    .pdf-viewer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      background: var(--bg-chat);
+    }
+
+    .pdf-viewer-overlay.is-open {
+      display: flex;
+    }
+
+    .pdf-viewer-header {
+      min-height: 58px;
+      padding: 8px 8px 8px 12px;
+      background: var(--bg-header);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .pdf-viewer-title {
+      flex: 1;
+      min-width: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pdf-viewer-body {
+      flex: 1;
+      min-height: 0;
+      background: #525659;
+    }
+
+    .pdf-viewer-body iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #525659;
     }
 
     .chat-back-btn {
@@ -925,10 +910,6 @@
       .brand-text .brand-title {
         font-size: 17px;
       }
-
-      .recent-card {
-        width: 118px;
-      }
     }
 
     @media (min-width:768px) and (max-width:1024px) {
@@ -969,6 +950,7 @@
       opacity: 0;
       transform: scale(.92);
       animation: ecshubLogoIn .8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      transition: opacity .18s ease;
     }
 
     .ecshub-splash-credit {
@@ -983,6 +965,16 @@
       color: var(--text-secondary);
       opacity: 0;
       animation: ecshubFadeIn .6s cubic-bezier(0.22, 1, 0.36, 1) .5s forwards;
+      transition: opacity .18s ease;
+    }
+
+    /* Step 1 of hiding: kill the logo/credit fast so nothing ghosts
+       over the real content while the solid backdrop is still fading.
+       Step 2 (.is-hiding) then fades the now-empty backdrop away. */
+    .ecshub-splash.content-hide .ecshub-splash-logo,
+    .ecshub-splash.content-hide .ecshub-splash-credit {
+      animation: none !important;
+      opacity: 0 !important;
     }
 
     @keyframes ecshubLogoIn {
@@ -1018,6 +1010,90 @@
     .global-search { padding:10px 14px; background:var(--bg-sidebar); border-bottom:1px solid var(--divider-color); position:relative; }
     .global-search-wrap { display:flex; align-items:center; gap:9px; background:var(--hover-bg); border-radius:9px; padding:0 12px; min-height:40px; }
     .global-search-wrap i { color:var(--text-secondary); }
+
+    /* ---------- Install App banner ---------- */
+    .install-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin: 8px 12px;
+      background: var(--wa-green-tint);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 168, 132, .18);
+    }
+
+    .install-banner.is-visible {
+      display: flex;
+      animation: popIn .3s var(--ease) both;
+    }
+
+    .install-banner-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--wa-green);
+      color: #fff;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .install-banner-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .install-banner-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .install-banner-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+
+    .install-banner-btn {
+      flex-shrink: 0;
+      background: var(--wa-green);
+      color: #fff;
+      border: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: filter .15s var(--ease);
+    }
+
+    .install-banner-btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .install-banner-close {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .install-banner-close:hover {
+      background: rgba(0, 0, 0, .06);
+    }
     .global-search input { width:100%; border:0; outline:0; background:transparent; color:var(--text-primary); font:inherit; font-size:14px; }
     .global-search input::placeholder { color:var(--text-secondary); }
     .search-results { position:absolute; z-index:20; left:14px; right:14px; top:58px; max-height:min(70vh,620px); overflow-y:auto; background:var(--bg-sidebar); border:1px solid var(--border-color); box-shadow:var(--shadow-md); display:none; }
@@ -1068,6 +1144,15 @@
         </div>
         <div class="search-results" id="globalSearchResults" role="listbox"></div>
       </div>
+      <div class="install-banner" id="installBanner">
+        <div class="install-banner-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="install-banner-text">
+          <div class="install-banner-title">Install ECSHub</div>
+          <div class="install-banner-sub">Quick access from your home screen, works offline</div>
+        </div>
+        <button class="install-banner-btn" id="installBannerBtn">Install</button>
+        <button class="install-banner-close" id="installBannerClose" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+      </div>
       <div class="sidebar-list scroll" id="sidebarList"></div>
       <div class="sidebar-footer">Made with ❤️ by Rohan</div>
     </div>
@@ -1077,11 +1162,23 @@
     </div>
   </div>
 
+  <div id="pdfViewerOverlay" class="pdf-viewer-overlay">
+    <div class="pdf-viewer-header">
+      <button class="icon-btn" onclick="closePdfViewer()" title="Close" aria-label="Close preview"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="pdf-viewer-title" id="pdfViewerTitle"></div>
+      <button class="icon-btn" id="pdfViewerExternal" title="Open in new tab" aria-label="Open in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
+      <a class="icon-btn" id="pdfViewerDownload" href="#" title="Download" aria-label="Download"><i class="fa-solid fa-arrow-down"></i></a>
+    </div>
+    <div class="pdf-viewer-body">
+      <iframe id="pdfViewerFrame" src="" title="PDF preview"></iframe>
+    </div>
+  </div>
+
   <script>
     /* =========================================================
        DATA — mirrors the exact local folder structure
        ========================================================= */
-    const fileTree = {"first year":{"sem I":{"Aptitude":{"type":"subject","icon":"fa-solid fa-calculator","files":{"quantitative_aptitude_for_competitive_examinations_by_rs_aggarwal.pdf":"pdf"}},"Constitution of India":{"type":"subject","icon":"fa-solid fa-scale-balanced","files":{"Notes":{"type":"folder","Unit I The Constituent Assembly and the Constitution":{"type":"folder","00.introduction.pdf":"pdf","A) Preamble of the Constitution.pdf":"pdf","B) Features of the Constitution.pdf":"pdf","C) Fundamental Rights of Indian Citizen.pdf":"pdf","D) Fundamental Duties of Indian Citizen.pdf":"pdf"},"Unit II  Democracy in India":{"type":"folder","A) Meaning, Definition, Features and Types of the Democracy.pdf":"pdf","B) Election commission of India - Structure, Power and Function.pdf":"pdf","C) Good Governance - Meaning and Features.pdf":"pdf","D) Indian Election and Voting Awareness Programme.pdf":"pdf"}},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf","October_November_2024.pdf":"pdf"},"Question Bank":{"type":"folder","Constitution of India  Question bank.pdf":"pdf","Question Bank with Answer.pdf":"pdf"},"Nature of Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Digital Electronics and Microprocessors":{"type":"subject","icon":"fa-solid fa-microchip","files":{"Notes":{"type":"folder","Unit_I_Logic Gates Combinational and Sequential circuits.pdf":"pdf","Unit_II_Introduction to Microprocessor.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Practical question.pdf":"pdf","Syllabus.pdf":"pdf"}},"English For Communication-I":{"type":"subject","icon":"fa-solid fa-comments","files":{"Notes":{"type":"folder","Leave Application Form.pdf":"pdf","Unit 1 Basics of Communication.pdf":"pdf","Unit 2 Oral Communication .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2024.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Nature of the Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Introduction to IKS in Science":{"type":"subject","icon":"fa-solid fa-atom","files":{"Notes":{"type":"folder","Unit I Bharatīya Civilization and Development of Knowledge System.pdf":"pdf","Unit II Science and Mathematics.pdf":"pdf","Unit III Life, Environment, and Health .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"syllabus.pdf":"pdf"}},"Introduction to Web Design":{"type":"subject","icon":"devicon-html5-plain","files":{"Notes":{"type":"folder","01.introduction to networking.pdf":"pdf","02.Introduction To HTML.pdf":"pdf","03.Elements of HTML.pdf":"pdf","04.Introduction to CSS.pdf":"pdf","05.CSS remaining notes.pdf":"pdf","06.JavaScript.pdf":"pdf"},"Practical Assignment":{"type":"folder","Assignment 01.pdf":"pdf","Assignment 02.pdf":"pdf","Assignment 03.pdf":"pdf"},"practical Exam Question Paper":{"type":"folder","Practical_Exam_Oct_Nov_2025.pdf":"pdf"},"program":{"type":"folder","frames":{"type":"folder","01.frameset.html":"html","02.frameset.html":"html","03.frameset.html":"html","04.frameset.html":"html","05.frameset.html":"html","06.frameset.html":"html","07.frameset.html":"html","08.frameset.html":"html","09.frameset.html":"html","10.frameset.html":"html","11.frameset.html":"html","12.frameset.html":"html","13.frameset.html":"html","14.frameset.html":"html","15.frameset.html":"html","16.frameset.html":"html","17.frameset.html":"html","18.frameset.html":"html","19.frameset.html":"html","20.frameset.html":"html","21.frameset.html":"html","22.frameset.html":"html","23.frameset.html":"html","24.frameset.html":"html","25.frameset.html":"html","26.frameset.html":"html","27.frameset.html":"html","28.frameset.html":"html","29.frameset.html":"html","30.frameset.html":"html","31.frameset.html":"html","32.frameset.html":"html","33.frameset.html":"html","34.frameset.html":"html","35.frameset.html":"html","36.frameset.html":"html","37.frameset.html":"html","38.frameset.html":"html","39.frameset.html":"html","40.frameset.html":"html","41.frameset.html":"html","42.frameset.html":"html","43.frameset.html":"html","ecshub_logo.png":"png"},"Indian Flag":{"type":"folder","anchor_tag.html":"html","Ashoka_Chakra.png":"png","flag.html":"html","green.html":"html","image.html":"html","saffron.html":"html"}},"Syllabus.pdf":"pdf"}},"Numerical Methods":{"type":"subject","icon":"fa-solid fa-square-root-variable","files":{"Practical Exam Question Paper":{"type":"folder","practicle exam.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Office Automation":{"type":"subject","icon":"fa-solid fa-briefcase","files":{"Notes":{"type":"folder","00.COMPUTER SHORTCUTS.pdf":"pdf","01.Unit_1_Introduction_to_Computer_and_MS_Word.pdf":"pdf","02.Unit 2 MS-Excel.pdf":"pdf","03.MS-Power point.pdf":"pdf","04.Excel_Shortcut_Keys.pdf":"pdf"},"Practical Assignment":{"type":"folder","OA Practical Assignment.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November-2024.pdf":"pdf","October_November_2025.pdf":"pdf","Preliminary Examination OcUNov. 2024.pdf":"pdf"},"Question Bank":{"type":"folder","Question Bank Office Automation.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"OOP’S with C++-I":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"Notes":{"type":"folder","00.logic.pdf":"pdf","01.1.2 & 1.3 Intro.to C lang & Input & output opr (1).pdf":"pdf","03.Control Statement1.pdf":"pdf","04.unit-I programming methodlogy.pdf":"pdf","05.Function.pdf":"pdf","06.Classes & Obj 2013-14.pdf":"pdf","07.Constructor And Destructor 2013-14.pdf":"pdf","08.Operator overloading.pdf":"pdf","09.parameters.pdf":"pdf","10.Type casting.pdf":"pdf","11.Array And string.pdf":"pdf","12.Classes & Obj 2013-14 (1).pdf":"pdf"},"practical Exam Question Paper":{"type":"folder","Practical_Exam_OOP_Set_K.pdf":"pdf"},"Practicle Assignment":{"type":"folder","Practical Assignment c++.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2024.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Turboc7 .exe file":{"type":"folder","Setup_TurboC_7_v2.1.exe":"exe"},"practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Python Programming-I":{"type":"subject","icon":"fa-brands fa-python","files":{"Home assignment":{"type":"folder","Python home assignment 1 .pdf":"pdf"},"Journal Assignments":{"type":"folder","Python-I SEM-I 2025-26 batch journal assignments.pdf":"pdf"},"Notes":{"type":"folder","01.Unit-I   Basics of Python .pdf":"pdf","02.Unit -2 Data Structure and Functions.pdf":"pdf","DOC-20240910-WA0017..pdf":"pdf","DocScanner 29-Oct-2025 5-55 pm.pdf":"pdf","Python unit-2 Array & String.pdf":"pdf","String function .pdf":"pdf","unit-1 Introduction to Python final.pdf":"pdf","Unit-2 dictonary methods.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_Python1_Set_C.pdf":"pdf","Practical_Exam_Python_Set_J.pdf":"pdf","Practical_Exam_Python_Set_L.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Python .exe file":{"type":"folder","python-3.13.13-amd64.exe":"exe"},"Question Bank":{"type":"folder","Python Question bank.pdf":"pdf","Question bank for practise.pdf":"pdf","Question Bank On Function.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}}},"sem II":{"Advanced Web Designing":{"type":"subject","icon":"devicon-bootstrap-plain","files":{"Assignment":{"type":"folder","Bootstrap assignment 03.pdf":"pdf","jQuery Assignment 01.pdf":"pdf","jQuery Assignment 02.pdf":"pdf"},"Notes":{"type":"folder","Bootstrap notes.pdf":"pdf","JQuery Notes.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Advanced_Web_Designing_Question_Paper.pdf":"pdf","Practical_Exam_Adv_Web_Set_D.pdf":"pdf","Practical_Exam_Adv_Web_Set_F.pdf":"pdf"},"Practical Question.pdf":"pdf"}},"Discrete Mathematics":{"type":"subject","icon":"fa-solid fa-folder-open","files":{"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"English For Communication-II":{"type":"subject","icon":"fa-solid fa-comments","files":{"Notes":{"type":"folder","unit 2.pdf":"pdf","Unit I .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf","Question Paper.pdf":"pdf"},"Nature of the Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Environmental Studies":{"type":"subject","icon":"fa-solid fa-leaf","files":{"Notes":{"type":"folder","environment notes.docx":"docx","Environmental economics notes.pdf":"pdf","Environmental studies Book.pdf":"pdf","ESG English.pdf":"pdf","Green Finance.pdf":"pdf","Sustainable Development.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","EVs  Pyq .pdf":"pdf","March_April _2026.pdf":"pdf","March_April_2025.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","All UG Environ Studies Question Bank.pdf":"pdf"},"SYLLABUS.pdf":"pdf"}},"Introduction to Microcontroller and Embedded System":{"type":"subject","icon":"fa-solid fa-robot","files":{"Notes":{"type":"folder","UNit -1 Fundamental of Microcontroller_8051 (1)-1 (1).pdf":"pdf","UNit -1 Fundamental of Microcontroller_8051 (1)-1.pdf":"pdf","UNit -1 Fundamental of Microcontroller_8051 (1).pdf":"pdf","Unit 2 Embedded system 1.pdf":"pdf"},"Practical Notes":{"type":"folder","8051 practical NEP ECS I Sem II 1.pdf":"pdf","Algorithm Flowchart.pdf":"pdf","flow chart.jpg":"jpg","Keil micro vision procedure.pdf":"pdf","keil micro vision work flow 1.pdf":"pdf","led on off flow chart.jpg":"jpg","microcntroller practiclal list.pdf.pdf":"pdf","NEP practical slip 8051.doc":"doc"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"OOPS with C++-II":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"Notes":{"type":"folder","All Inheritance Question.pdf":"pdf","Exception.pdf":"pdf","file .pdf":"pdf","Inheritance and Runtime Polymorphism.pdf":"pdf","Pointer to base class and Pointer to derived class(1).pdf":"pdf","Stream and Command line argument.pdf":"pdf","Unit -2 Exception Handling and Threading.pdf":"pdf"},"Practical Assignment":{"type":"folder","Practical Assignment No 02.pdf":"pdf","Practical Assignment No 03.pdf":"pdf","Practical Assignment No 1 .pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_OOP_Set_A.pdf":"pdf","Practical_Exam_OOP_Set_C.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Test":{"type":"folder","B Div Test.jpg":"jpg","ECS-I Test No 1.pdf":"pdf"},"Theory Assignment":{"type":"folder","C++ Theory Assignment No 02.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"Python Programming -II":{"type":"subject","icon":"fa-brands fa-python","files":{"Home Assignment":{"type":"folder","home assignment.pdf":"pdf"},"Notes":{"type":"folder","Unit -1   Modules and packages.pdf":"pdf","Unit -2 Exception Handling and Threading (1).pdf":"pdf"},"Practical Assignments":{"type":"folder","python-II journl assignment.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_Python2_Set_A_.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","python question bank.jpg":"jpg"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"Soft skin and personality development":{"type":"subject","icon":"fa-solid fa-user-tie","files":{"Course_Content.pdf":"pdf","Soft Skills and Personality Development.pdf":"pdf"}},"Software Engineering":{"type":"subject","icon":"fa-solid fa-gears","files":{"Notes":{"type":"folder","Introduction to Software Engineering.pdf":"pdf","Software Engineering Notes.pdf":"pdf","Unit -1 SW Requirement.docx":"docx","Unit-1.pdf":"pdf","Unit-2 SE.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","Software Engineering-Questions.pdf":"pdf"},"syllabus.pdf":"pdf"}},"Yoga Education":{"type":"subject","icon":"fa-solid fa-om","files":{"Notes":{"type":"folder","Unit 1 yoga 206 final notes.pdf":"pdf","Unit I  Yoga Education 1.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"syllabus.pdf":"pdf"}}}},"second year":{"sem III":{"ADVANCED PYTHON PROGRAMMING":{"type":"subject","icon":"fa-brands fa-python","files":{"Lab Assignmrnt":{"type":"folder","Advanced Python Lab Assignment-1.pdf":"pdf"},"notes":{"type":"folder","Adv. Python Unit 1 final.pdf":"pdf","Adv.Py. Unit 2 ECS-II (2).pdf":"pdf","how_to_install_numpy.png":"png"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Stat and Python practical.pdf":"pdf","SYLLABUS.pdf":"pdf"}},"DATA STRUCTURES USING C++":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"notes":{"type":"folder","Unit-I Topic-III Stack 2025-26.pdf":"pdf","Unit-I Topic-IV Queue 2025-26.pdf":"pdf","Unit-I Topic-V  SORTING and Searchig 2025-26.pdf":"pdf","Unit-II Topic-I Linked list 2025-26.pdf":"pdf","Unit-II Topic-II Tree 2025-26.pdf":"pdf","Unit_I_Topic_I,_II_Algo_ADT,_ARRAY_2024_25_ECS_2.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_april_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"program":{"type":"folder","01.STACK.txt":"txt","02.INTOPOST.txt":"txt","03.INTOPRE.txt":"txt","04.EVAL.txt":"txt","05.VALIDITY.txt":"txt","06.LIN_Q.txt":"txt","07.CIR_Q.txt":"txt","08.IRD.txt":"txt","09.PQ.txt":"txt","10.SLLL.txt":"txt"},"Ds and Dbms practical.pdf":"pdf","Practical Question.pdf":"pdf","SYLLABUS.pdf":"pdf"}},"DATABASE MANAGEMENT SYSTEMS":{"type":"subject","icon":"fa-solid fa-database","files":{"notes":{"type":"folder","DDL commands.pdf":"pdf","Relational Alegbra.pdf":"pdf","Unit-I 25-26.pdf":"pdf","Unit-II DBMS.pdf":"pdf","Unit_I_intro_SQL_DDL_DML_TCL_DCL_Operators_built_fun_Clause_Integrity (2).pdf":"pdf","Views.pdf":"pdf"},"Practical Assignment":{"type":"folder","finalPract_Assignemet_I_DBMS_ECS_II_Sem_III_.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Theory Assignment":{"type":"folder","01.Theory Assignment.pdf":"pdf"},"Ds and Dbms practical.pdf":"pdf","Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"OPERATING SYSTEMS":{"type":"subject","icon":"fa-solid fa-server","files":{"notes":{"type":"folder","Prof.Amol Kavale Sir":{"type":"folder","Assignment":{"type":"folder","Assignment No-1 Operating System Div-C.pdf":"pdf","Assignment No-2 Operating System Div-C.pdf":"pdf"},"notes":{"type":"folder","Unit 1 All Operating System Div--C.pdf":"pdf"}},"Prof.Rahul Shinde Sir":{"type":"folder","notes":{"type":"folder","O.S. Unit-2.pdf":"pdf","Process Management(CPU Scheduling) B.Sc.(ECS)-II.pdf":"pdf","Process synchronization B.Sc.(ECS)-II Div(A,B).pdf":"pdf","Unit_1_Introduction_To_Operating System -2025-26.pdf":"pdf"},"Theory Assignment":{"type":"folder","Assignment No-1 Operating System.pdf":"pdf","FCFS scheduling assignment BCS-II Div A,B.pdf":"pdf"}}},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Reading Texts in Indian English-I":{"type":"subject","icon":"fa-solid fa-book-open","files":{"notes":{"type":"folder","ECS II.pdf":"pdf","Reading Texts in Indian English 1.pdf":"pdf","Short Stories.pdf":"pdf","the doctors world.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"ENGLISH SYLLABUS.pdf":"pdf"}},"STATISTICS FOR DATA SCIENCE  I":{"type":"subject","icon":"fa-solid fa-chart-line","files":{"notes":{"type":"folder","unit 1 population and sampling.pdf":"pdf","unit 2 data condensation and graphical method.pdf":"pdf","unit 3 measurement of central tendency.pdf":"pdf","unit 4 measures of dispersion.pdf":"pdf","unit 5 correlation.pdf":"pdf","unit 6 Regression.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Stat and Python practical.pdf":"pdf","Syllabus.pdf":"pdf"}},"YOGA EDUCATION":{"type":"subject","icon":"fa-solid fa-om","files":{"Notes":{"type":"folder","Unit-1&2 Yoga NOTES.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"syllabus.pdf":"pdf"}}},"sem Iv":{"Computer Networks":{"type":"subject","icon":"fa-solid fa-network-wired","files":{"Notes":{"type":"folder","Unit-I Introduction to Data Communication and Networking(CN).pdf":"pdf","Unit-II Data Link Layer(Div-C).pdf":"pdf","Unit-II Physical Layer(Div-C).pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Core Java":{"type":"subject","icon":"fa-brands fa-java","files":{"Notes":{"type":"folder","core_java_all_notes.pdf":"pdf","Unit-I Sem-IV CoreJava PART-I.pdf":"pdf","Unit-II Sem-IV  Exception handling, Thread, I-O.pdf":"pdf","Unit_I_Sem_IV_CoreJava_Part_II_Inheritance,_Interface,_Package.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Exam_Paper_Java_DBMS_Set_A.pdf":"pdf","Practical_Exam_Core_Java_Set_A.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Reading Texts in Indian English-II":{"type":"subject","icon":"fa-solid fa-book-open","files":{"Notes":{"type":"folder","Anreji.pdf":"pdf","Indian_English_VVIMP_QA.pdf":"pdf","Reading Texts in Indian English-II.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Relational Database Management System":{"type":"subject","icon":"fa-solid fa-table-list","files":{"Notes":{"type":"folder","BCS-DBMS Unit-4 Recovery Atomictiy.docx.pdf":"pdf","rdbms_final.pdf":"pdf","Unit 1.1-1.2 (1).pdf":"pdf","Unit 1.1-1.2.pdf":"pdf","Unit 2.1.pdf":"pdf","Unit 2.2.pdf":"pdf","Unit 2.3.pdf":"pdf","Unit 2.4.pdf":"pdf","Unit 2.5.pdf":"pdf","Unit 2.6.pdf":"pdf","Unit 2.7.pdf":"pdf","Unit2.5.1Explicit Cursor Attributes.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_RDBMS_Set_A.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Software Testing and Quality Assurance":{"type":"subject","icon":"fa-solid fa-bug","files":{"Notes":{"type":"folder","MCQ  ST.pdf":"pdf","Software Testing Unit 1.pdf":"pdf","Software testing unit 2 F.pdf":"pdf"},"Previous Year Practical Question":{"type":"folder","Practical_Exam_Testing_QA_Set_A.pdf":"pdf","Practical_Exam_Testing_QA_Set_C.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Statistics for Data Science - II":{"type":"subject","icon":"fa-solid fa-chart-line","files":{"Notes":{"type":"folder","statistics -2.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","stat.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}}}},"third year":{"sem v":{"hello.txt":"txt"}}};
+    const fileTree = {"first year":{"sem I":{"Aptitude":{"type":"subject","icon":"fa-solid fa-calculator","files":{"quantitative_aptitude_for_competitive_examinations_by_rs_aggarwal.pdf":"pdf"}},"Constitution of India":{"type":"subject","icon":"fa-solid fa-scale-balanced","files":{"Notes":{"type":"folder","Unit I The Constituent Assembly and the Constitution":{"type":"folder","00.introduction.pdf":"pdf","A) Preamble of the Constitution.pdf":"pdf","B) Features of the Constitution.pdf":"pdf","C) Fundamental Rights of Indian Citizen.pdf":"pdf","D) Fundamental Duties of Indian Citizen.pdf":"pdf"},"Unit II  Democracy in India":{"type":"folder","A) Meaning, Definition, Features and Types of the Democracy.pdf":"pdf","B) Election commission of India - Structure, Power and Function.pdf":"pdf","C) Good Governance - Meaning and Features.pdf":"pdf","D) Indian Election and Voting Awareness Programme.pdf":"pdf"}},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf","October_November_2024.pdf":"pdf"},"Question Bank":{"type":"folder","Constitution of India  Question bank.pdf":"pdf","Question Bank with Answer.pdf":"pdf"},"Nature of Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Digital Electronics and Microprocessors":{"type":"subject","icon":"fa-solid fa-microchip","files":{"Notes":{"type":"folder","Unit_I_Logic Gates Combinational and Sequential circuits.pdf":"pdf","Unit_II_Introduction to Microprocessor.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Practical question.pdf":"pdf","Syllabus.pdf":"pdf"}},"English For Communication-I":{"type":"subject","icon":"fa-solid fa-comments","files":{"Notes":{"type":"folder","Leave Application Form.pdf":"pdf","Unit 1 Basics of Communication.pdf":"pdf","Unit 2 Oral Communication .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2024.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Nature of the Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Introduction to IKS in Science":{"type":"subject","icon":"fa-solid fa-atom","files":{"Notes":{"type":"folder","Unit I Bharatīya Civilization and Development of Knowledge System.pdf":"pdf","Unit II Science and Mathematics.pdf":"pdf","Unit III Life, Environment, and Health .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"syllabus.pdf":"pdf"}},"Introduction to Web Design":{"type":"subject","icon":"devicon-html5-plain","files":{"Notes":{"type":"folder","01.introduction to networking.pdf":"pdf","02.Introduction To HTML.pdf":"pdf","03.Elements of HTML.pdf":"pdf","04.Introduction to CSS.pdf":"pdf","05.CSS remaining notes.pdf":"pdf","06.JavaScript.pdf":"pdf"},"Practical Assignment":{"type":"folder","Assignment 01.pdf":"pdf","Assignment 02.pdf":"pdf","Assignment 03.pdf":"pdf"},"practical Exam Question Paper":{"type":"folder","Practical_Exam_Oct_Nov_2025.pdf":"pdf"},"program":{"type":"folder","frames":{"type":"folder","01.frameset.html":"html","02.frameset.html":"html","03.frameset.html":"html","04.frameset.html":"html","05.frameset.html":"html","06.frameset.html":"html","07.frameset.html":"html","08.frameset.html":"html","09.frameset.html":"html","10.frameset.html":"html","11.frameset.html":"html","12.frameset.html":"html","13.frameset.html":"html","14.frameset.html":"html","15.frameset.html":"html","16.frameset.html":"html","17.frameset.html":"html","18.frameset.html":"html","19.frameset.html":"html","20.frameset.html":"html","21.frameset.html":"html","22.frameset.html":"html","23.frameset.html":"html","24.frameset.html":"html","25.frameset.html":"html","26.frameset.html":"html","27.frameset.html":"html","28.frameset.html":"html","29.frameset.html":"html","30.frameset.html":"html","31.frameset.html":"html","32.frameset.html":"html","33.frameset.html":"html","34.frameset.html":"html","35.frameset.html":"html","36.frameset.html":"html","37.frameset.html":"html","38.frameset.html":"html","39.frameset.html":"html","40.frameset.html":"html","41.frameset.html":"html","42.frameset.html":"html","43.frameset.html":"html","ecshub_logo.png":"png"},"Indian Flag":{"type":"folder","anchor_tag.html":"html","Ashoka_Chakra.png":"png","flag.html":"html","green.html":"html","image.html":"html","saffron.html":"html"}},"Syllabus.pdf":"pdf"}},"Numerical Methods":{"type":"subject","icon":"fa-solid fa-square-root-variable","files":{"Practical Exam Question Paper":{"type":"folder","practicle exam.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Office Automation":{"type":"subject","icon":"fa-solid fa-briefcase","files":{"Notes":{"type":"folder","00.COMPUTER SHORTCUTS.pdf":"pdf","01.Unit_1_Introduction_to_Computer_and_MS_Word.pdf":"pdf","02.Unit 2 MS-Excel.pdf":"pdf","03.MS-Power point.pdf":"pdf","04.Excel_Shortcut_Keys.pdf":"pdf"},"Practical Assignment":{"type":"folder","OA Practical Assignment.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November-2024.pdf":"pdf","October_November_2025.pdf":"pdf","Preliminary Examination OcUNov. 2024.pdf":"pdf"},"Question Bank":{"type":"folder","Question Bank Office Automation.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"OOP’S with C++-I":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"Notes":{"type":"folder","00.logic.pdf":"pdf","01.1.2 & 1.3 Intro.to C lang & Input & output opr (1).pdf":"pdf","03.Control Statement1.pdf":"pdf","04.unit-I programming methodlogy.pdf":"pdf","05.Function.pdf":"pdf","06.Classes & Obj 2013-14.pdf":"pdf","07.Constructor And Destructor 2013-14.pdf":"pdf","08.Operator overloading.pdf":"pdf","09.parameters.pdf":"pdf","10.Type casting.pdf":"pdf","11.Array And string.pdf":"pdf","12.Classes & Obj 2013-14 (1).pdf":"pdf"},"practical Exam Question Paper":{"type":"folder","Practical_Exam_OOP_Set_K.pdf":"pdf"},"Practicle Assignment":{"type":"folder","Practical Assignment c++.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2024.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"Turboc7 .exe file":{"type":"folder","Setup_TurboC_7_v2.1.exe":"exe"},"practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Python Programming-I":{"type":"subject","icon":"fa-brands fa-python","files":{"Home assignment":{"type":"folder","Python home assignment 1 .pdf":"pdf"},"Journal Assignments":{"type":"folder","Python-I SEM-I 2025-26 batch journal assignments.pdf":"pdf"},"Notes":{"type":"folder","01.Unit-I   Basics of Python .pdf":"pdf","02.Unit -2 Data Structure and Functions.pdf":"pdf","DOC-20240910-WA0017..pdf":"pdf","DocScanner 29-Oct-2025 5-55 pm.pdf":"pdf","Python unit-2 Array & String.pdf":"pdf","String function .pdf":"pdf","unit-1 Introduction to Python final.pdf":"pdf","Unit-2 dictonary methods.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_Python1_Set_C.pdf":"pdf","Practical_Exam_Python_Set_J.pdf":"pdf","Practical_Exam_Python_Set_L.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Python .exe file":{"type":"folder","python-3.13.13-amd64.exe":"exe"},"Question Bank":{"type":"folder","Python Question bank.pdf":"pdf","Question bank for practise.pdf":"pdf","Question Bank On Function.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}}},"sem II":{"Advanced Web Designing":{"type":"subject","icon":"devicon-bootstrap-plain","files":{"Assignment":{"type":"folder","Bootstrap assignment 03.pdf":"pdf","jQuery Assignment 01.pdf":"pdf","jQuery Assignment 02.pdf":"pdf"},"Notes":{"type":"folder","Bootstrap notes.pdf":"pdf","JQuery Notes.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_Adv_Web_Set_D.pdf":"pdf","Practical_Exam_Adv_Web_Set_F.pdf":"pdf"},"Practical Question.pdf":"pdf"}},"Discrete Mathematics":{"type":"subject","icon":"fa-solid fa-folder-open","files":{"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"English For Communication-II":{"type":"subject","icon":"fa-solid fa-comments","files":{"Notes":{"type":"folder","unit 2.pdf":"pdf","Unit I .pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf","Question Paper.pdf":"pdf"},"Nature of the Question Paper.pdf":"pdf","syllabus.pdf":"pdf"}},"Environmental Studies":{"type":"subject","icon":"fa-solid fa-leaf","files":{"Notes":{"type":"folder","environment notes.docx":"docx","Environmental economics notes.pdf":"pdf","Environmental studies Book.pdf":"pdf","ESG English.pdf":"pdf","Green Finance.pdf":"pdf","Sustainable Development.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","EVs  Pyq .pdf":"pdf","March_April _2026.pdf":"pdf","March_April_2025.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","All UG Environ Studies Question Bank.pdf":"pdf"},"SYLLABUS.pdf":"pdf"}},"Introduction to Microcontroller and Embedded System":{"type":"subject","icon":"fa-solid fa-robot","files":{"Notes":{"type":"folder","UNit -1 Fundamental of Microcontroller_8051 (1)-1 (1).pdf":"pdf","UNit -1 Fundamental of Microcontroller_8051 (1)-1.pdf":"pdf","UNit -1 Fundamental of Microcontroller_8051 (1).pdf":"pdf","Unit 2 Embedded system 1.pdf":"pdf"},"Practical Notes":{"type":"folder","8051 practical NEP ECS I Sem II 1.pdf":"pdf","Algorithm Flowchart.pdf":"pdf","flow chart.jpg":"jpg","Keil micro vision procedure.pdf":"pdf","keil micro vision work flow 1.pdf":"pdf","led on off flow chart.jpg":"jpg","microcntroller practiclal list.pdf.pdf":"pdf","NEP practical slip 8051.doc":"doc"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"OOPS with C++-II":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"Notes":{"type":"folder","All Inheritance Question.pdf":"pdf","Exception.pdf":"pdf","file .pdf":"pdf","Inheritance and Runtime Polymorphism.pdf":"pdf","Pointer to base class and Pointer to derived class(1).pdf":"pdf","Stream and Command line argument.pdf":"pdf","Unit -2 Exception Handling and Threading.pdf":"pdf"},"Practical Assignment":{"type":"folder","Practical Assignment No 02.pdf":"pdf","Practical Assignment No 03.pdf":"pdf","Practical Assignment No 1 .pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_OOP_Set_A.pdf":"pdf","Practical_Exam_OOP_Set_C.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Test":{"type":"folder","B Div Test.jpg":"jpg","ECS-I Test No 1.pdf":"pdf"},"Theory Assignment":{"type":"folder","C++ Theory Assignment No 02.pdf":"pdf"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"Python Programming -II":{"type":"subject","icon":"fa-brands fa-python","files":{"Home Assignment":{"type":"folder","home assignment.pdf":"pdf"},"Notes":{"type":"folder","Unit -1   Modules and packages.pdf":"pdf","Unit -2 Exception Handling and Threading (1).pdf":"pdf"},"Practical Assignments":{"type":"folder","python-II journl assignment.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_Python2_Set_A_.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","python question bank.jpg":"jpg"},"Practical Question.pdf":"pdf","syllabus.pdf":"pdf"}},"Soft skin and personality development":{"type":"subject","icon":"fa-solid fa-user-tie","files":{"Course_Content.pdf":"pdf","Soft Skills and Personality Development.pdf":"pdf"}},"Software Engineering":{"type":"subject","icon":"fa-solid fa-gears","files":{"Notes":{"type":"folder","Introduction to Software Engineering.pdf":"pdf","Software Engineering Notes.pdf":"pdf","Unit -1 SW Requirement.docx":"docx","Unit-1.pdf":"pdf","Unit-2 SE.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Question Bank":{"type":"folder","Software Engineering-Questions.pdf":"pdf"},"syllabus.pdf":"pdf"}},"Yoga Education":{"type":"subject","icon":"fa-solid fa-om","files":{"Notes":{"type":"folder","Unit 1 yoga 206 final notes.pdf":"pdf","Unit I  Yoga Education 1.pdf":"pdf"},"Prevoius Year Question Paper":{"type":"folder","march_april_2025.pdf":"pdf","March_April_2026.pdf":"pdf","October_November_ 2025.pdf":"pdf"},"syllabus.pdf":"pdf"}}}},"second year":{"sem III":{"ADVANCED PYTHON PROGRAMMING":{"type":"subject","icon":"fa-brands fa-python","files":{"Lab Assignmrnt":{"type":"folder","Advanced Python Lab Assignment-1.pdf":"pdf"},"notes":{"type":"folder","Adv. Python Unit 1 final.pdf":"pdf","Adv.Py. Unit 2 ECS-II (2).pdf":"pdf","how_to_install_numpy.png":"png"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Stat and Python practical.pdf":"pdf","SYLLABUS.pdf":"pdf"}},"DATA STRUCTURES USING C++":{"type":"subject","icon":"devicon-cplusplus-plain","files":{"notes":{"type":"folder","Unit-I Topic-III Stack 2025-26.pdf":"pdf","Unit-I Topic-IV Queue 2025-26.pdf":"pdf","Unit-I Topic-V  SORTING and Searchig 2025-26.pdf":"pdf","Unit-II Topic-I Linked list 2025-26.pdf":"pdf","Unit-II Topic-II Tree 2025-26.pdf":"pdf","Unit_I_Topic_I,_II_Algo_ADT,_ARRAY_2024_25_ECS_2.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_april_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"program":{"type":"folder","CIR_Q.txt":"txt","EVAL.txt":"txt","INTOPOST.txt":"txt","INTOPRE.txt":"txt","IRD.txt":"txt","LIN_Q.txt":"txt","PQ.txt":"txt","01.STACK.txt":"txt","VALIDITY.txt":"txt"},"Question Bank":{"type":"folder"},"Ds and Dbms practical.pdf":"pdf","Practical Question.pdf":"pdf","SYLLABUS.pdf":"pdf"}},"DATABASE MANAGEMENT SYSTEMS":{"type":"subject","icon":"fa-solid fa-database","files":{"notes":{"type":"folder","DDL commands.pdf":"pdf","Relational Alegbra.pdf":"pdf","Unit-I 25-26.pdf":"pdf","Unit-II DBMS.pdf":"pdf","Unit_I_intro_SQL_DDL_DML_TCL_DCL_Operators_built_fun_Clause_Integrity (2).pdf":"pdf","Views.pdf":"pdf"},"Practical Assignment":{"type":"folder","finalPract_Assignemet_I_DBMS_ECS_II_Sem_III_.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Ds and Dbms practical.pdf":"pdf","Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"OPERATING SYSTEMS":{"type":"subject","icon":"fa-solid fa-server","files":{"notes":{"type":"folder","Prof.Amol Kavale Sir":{"type":"folder","Assignment":{"type":"folder","Assignment No-1 Operating System Div-C.pdf":"pdf","Assignment No-2 Operating System Div-C.pdf":"pdf"},"notes":{"type":"folder","Unit 1 All Operating System Div--C.pdf":"pdf"}},"Prof.Rahul Shinde Sir":{"type":"folder","notes":{"type":"folder","O.S. Unit-2.pdf":"pdf","Process Management(CPU Scheduling) B.Sc.(ECS)-II.pdf":"pdf","Process synchronization B.Sc.(ECS)-II Div(A,B).pdf":"pdf","Unit_1_Introduction_To_Operating System -2025-26.pdf":"pdf"},"Theory Assignment":{"type":"folder","Assignment No-1 Operating System.pdf":"pdf","FCFS scheduling assignment BCS-II Div A,B.pdf":"pdf"}}},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Reading Texts in Indian English-I":{"type":"subject","icon":"fa-solid fa-book-open","files":{"notes":{"type":"folder","ECS II.pdf":"pdf","Reading Texts in Indian English 1.pdf":"pdf","Short Stories.pdf":"pdf","the doctors world.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"ENGLISH SYLLABUS.pdf":"pdf"}},"STATISTICS FOR DATA SCIENCE  I":{"type":"subject","icon":"fa-solid fa-chart-line","files":{"notes":{"type":"folder","unit 1 population and sampling.pdf":"pdf","unit 2 data condensation and graphical method.pdf":"pdf","unit 3 measurement of central tendency.pdf":"pdf","unit 4 measures of dispersion.pdf":"pdf","unit 5 correlation.pdf":"pdf","unit 6 Regression.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"Practical Question.pdf":"pdf","Stat and Python practical.pdf":"pdf","Syllabus.pdf":"pdf"}},"YOGA EDUCATION":{"type":"subject","icon":"fa-solid fa-om","files":{"Notes":{"type":"folder","Unit-1&2 Yoga NOTES.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf","October_November_2025.pdf":"pdf"},"syllabus.pdf":"pdf"}}},"sem Iv":{"Computer Networks":{"type":"subject","icon":"fa-solid fa-network-wired","files":{"Notes":{"type":"folder","Unit-I Introduction to Data Communication and Networking(CN).pdf":"pdf","Unit-II Data Link Layer(Div-C).pdf":"pdf","Unit-II Physical Layer(Div-C).pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2025.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Core Java":{"type":"subject","icon":"fa-brands fa-java","files":{"Notes":{"type":"folder","core_java_all_notes.pdf":"pdf","Unit-I Sem-IV CoreJava PART-I.pdf":"pdf","Unit-II Sem-IV  Exception handling, Thread, I-O.pdf":"pdf","Unit_I_Sem_IV_CoreJava_Part_II_Inheritance,_Interface,_Package.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Exam_Paper_Java_DBMS_Set_A.pdf":"pdf","Practical_Exam_Core_Java_Set_A.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Reading Texts in Indian English-II":{"type":"subject","icon":"fa-solid fa-book-open","files":{"Notes":{"type":"folder","Anreji.pdf":"pdf","Indian_English_VVIMP_QA.pdf":"pdf","Reading Texts in Indian English-II.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Syllabus.pdf":"pdf"}},"Relational Database Management System":{"type":"subject","icon":"fa-solid fa-table-list","files":{"Notes":{"type":"folder","BCS-DBMS Unit-4 Recovery Atomictiy.docx.pdf":"pdf","rdbms_final.pdf":"pdf","Unit 1.1-1.2 (1).pdf":"pdf","Unit 1.1-1.2.pdf":"pdf","Unit 2.1.pdf":"pdf","Unit 2.2.pdf":"pdf","Unit 2.3.pdf":"pdf","Unit 2.4.pdf":"pdf","Unit 2.5.pdf":"pdf","Unit 2.6.pdf":"pdf","Unit 2.7.pdf":"pdf","Unit2.5.1Explicit Cursor Attributes.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","Practical_Exam_RDBMS_Set_A.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Software Testing and Quality Assurance":{"type":"subject","icon":"fa-solid fa-bug","files":{"Notes":{"type":"folder","MCQ  ST.pdf":"pdf","Software Testing Unit 1.pdf":"pdf","Software testing unit 2 F.pdf":"pdf"},"Previous Year Practical Question":{"type":"folder","Practical_Exam_Testing_QA_Set_A.pdf":"pdf","Practical_Exam_Testing_QA_Set_C.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}},"Statistics for Data Science - II":{"type":"subject","icon":"fa-solid fa-chart-line","files":{"Notes":{"type":"folder","statistics -2.pdf":"pdf"},"Practical Exam Question Paper":{"type":"folder","stat.pdf":"pdf"},"Previous Year Question Paper":{"type":"folder","March_April_2026.pdf":"pdf"},"Practical Question.pdf":"pdf","Syllabus.pdf":"pdf"}}}},"third year":{"sem v":{},"sem vI":{}}};
 
     /* =========================================================
        CONFIG / LOOKUPS
@@ -1106,12 +1203,6 @@
     }
     function safeSet(key, val) {
       try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* storage unavailable, ignore */ }
-    }
-    function getRecent() { return safeGet('ecshub_recent', []); }
-    function pushRecent(year, sem, key) {
-      let list = getRecent().filter(r => !(r.year === year && r.sem === sem && r.key === key));
-      list.unshift({ year, sem, key });
-      safeSet('ecshub_recent', list.slice(0, 6));
     }
     function getProgress() { return safeGet('ecshub_progress', {}); }
     function isRead(path) { return !!getProgress()[path]; }
@@ -1138,6 +1229,57 @@
       const progress = getProgress();
       const done = paths.filter(p => progress[p]).length;
       return { done, total: paths.length };
+    }
+
+    /* ---------- "New" file tracking ----------
+       No server timestamps exist per file, so newness is inferred by
+       comparing today's full file list against the list saved on the
+       visitor's last visit. Anything that wasn't there before is "new"
+       until the visitor opens it. First-ever visit never flags
+       anything (so a fresh visitor doesn't see the whole site tagged
+       new). */
+    function allFilePathsInTree() {
+      let out = [];
+      Object.keys(fileTree).forEach(year => {
+        Object.keys(fileTree[year]).forEach(sem => {
+          Object.keys(fileTree[year][sem]).forEach(subjectKey => {
+            out = out.concat(collectFilePaths(fileTree[year][sem][subjectKey].files || {}, [year, sem, subjectKey]));
+          });
+        });
+      });
+      return out;
+    }
+    let NEW_FILES_SET = new Set();
+    function initNewFilesTracking() {
+      const current = allFilePathsInTree();
+      const knownRaw = safeGet('ecshub_known_files', null);
+      if (knownRaw === null) {
+        safeSet('ecshub_known_files', current);
+        safeSet('ecshub_new_files', []);
+        NEW_FILES_SET = new Set();
+        return;
+      }
+      const knownSet = new Set(knownRaw);
+      const currentSet = new Set(current);
+      const diff = current.filter(p => !knownSet.has(p));
+      const stillNew = new Set(safeGet('ecshub_new_files', []).filter(p => currentSet.has(p)));
+      diff.forEach(p => stillNew.add(p));
+      safeSet('ecshub_new_files', Array.from(stillNew));
+      safeSet('ecshub_known_files', current);
+      NEW_FILES_SET = stillNew;
+    }
+    function isNewFile(path) { return NEW_FILES_SET.has(path); }
+    function clearNewFlag(path) {
+      if (NEW_FILES_SET.delete(path)) safeSet('ecshub_new_files', Array.from(NEW_FILES_SET));
+    }
+    function subjectHasNew(year, sem, key) {
+      return collectFilePaths(fileTree[year][sem][key].files || {}, [year, sem, key]).some(p => NEW_FILES_SET.has(p));
+    }
+    function semHasNew(year, sem) {
+      return Object.keys(fileTree[year][sem]).some(key => subjectHasNew(year, sem, key));
+    }
+    function yearHasNew(year) {
+      return Object.keys(fileTree[year]).some(sem => semHasNew(year, sem));
     }
 
     /* ---------- Theme ---------- */
@@ -1285,16 +1427,17 @@
       // All subject icons render in the site's standard green — no per-brand coloring.
       return `<i class="${iconClass}"></i>`;
     }
-    function subjectAvatar(name, icon) {
+    function subjectAvatar(name, icon, hasNew) {
+      const dot = hasNew ? '<span class="new-dot-badge"></span>' : '';
       if (icon === "yoga-img") {
-        return `<div class="row-avatar">
+        return `<span class="avatar-wrap"><div class="row-avatar">
       <img src="yoga.jpg" alt="${esc(name)}"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <i class="fa-solid fa-person-walking" style="display:none;font-size:19px;"></i>
-    </div>`;
+    </div>${dot}</span>`;
       }
       const brandCls = isDevicon(icon) ? ' avatar-brand' : '';
-      return `<div class="row-avatar${brandCls}">${iconTag(icon)}</div>`;
+      return `<span class="avatar-wrap"><div class="row-avatar${brandCls}">${iconTag(icon)}</div>${dot}</span>`;
     }
     function animateSwap(container, newDepth, lastDepth) {
       container.classList.remove('anim-right', 'anim-left', 'anim-fade');
@@ -1308,37 +1451,6 @@
     /* =========================================================
        SIDEBAR RENDER
        ========================================================= */
-    function renderRecentStrip() {
-      const recent = getRecent().filter(r => fileTree[r.year] && fileTree[r.year][r.sem] && fileTree[r.year][r.sem][r.key]);
-      if (recent.length === 0) return "";
-      let cards = "";
-      recent.forEach((r, i) => {
-        const subj = fileTree[r.year][r.sem][r.key];
-        const { done, total } = subjectProgress(r.year, r.sem, r.key, subj);
-        const pct = total ? Math.round((done / total) * 100) : 0;
-        const iconHtml = subj.icon === "yoga-img"
-          ? `<i class="fa-solid fa-person-walking"></i>`
-          : iconTag(subj.icon);
-        cards += `
-      <div class="recent-card" style="animation-delay:${i * 40}ms" onclick="openFromRecent('${escJs(r.year)}','${escJs(r.sem)}','${escJs(r.key)}')">
-        <div class="rc-icon${isDevicon(subj.icon) ? ' rc-icon-brand' : ''}">${iconHtml}</div>
-        <div class="rc-name">${esc(prettyName(r.key))}</div>
-        <div class="rc-progress"><div class="rc-progress-fill" style="width:${pct}%"></div></div>
-        <div class="rc-pct">${total ? done + "/" + total + " reviewed" : "No files"}</div>
-      </div>`;
-      });
-      return `
-    <div class="recent-strip">
-      <div class="rs-label"><i class="fa-solid fa-clock-rotate-left"></i> Continue your journey</div>
-      <div class="recent-row">${cards}</div>
-    </div>`;
-    }
-
-    function openFromRecent(year, sem, key) {
-      sidebarYear = year; sidebarSem = sem; sidebarLevel = "subjects";
-      openSubject(year, sem, key);
-    }
-
     function renderSidebar() {
       const newDepth = LEVEL_DEPTH[sidebarLevel];
 
@@ -1349,12 +1461,15 @@
         <h1 class="brand-title">ECSHub</h1>
       </div>
       ${themeBtnHtml()}`;
-        let rows = renderRecentStrip();
+        let rows = "";
         Object.keys(fileTree).forEach(year => {
           const semCount = Object.keys(fileTree[year]).length;
           rows += `
         <div class="list-row" onclick="goSemesters('${escJs(year)}')">
-          <div class="row-avatar" style="${avatarStyle(year)}">${YEAR_ORDINAL[year] || ""}</div>
+          <span class="avatar-wrap">
+            <div class="row-avatar" style="${avatarStyle(year)}">${YEAR_ORDINAL[year] || ""}</div>
+            ${yearHasNew(year) ? '<span class="new-dot-badge"></span>' : ''}
+          </span>
           <div class="row-body">
             <div class="row-title">${esc(YEAR_LABELS[year] || year)}</div>
             <div class="row-sub">${semCount} semester${semCount !== 1 ? "s" : ""}</div>
@@ -1378,7 +1493,10 @@
           const subCount = Object.keys(fileTree[sidebarYear][sem]).length;
           rows += `
         <div class="list-row" onclick="goSubjects('${escJs(sem)}')">
-          <div class="row-avatar" style="${avatarStyle(sem)}">${esc(semRoman(sem))}</div>
+          <span class="avatar-wrap">
+            <div class="row-avatar" style="${avatarStyle(sem)}">${esc(semRoman(sem))}</div>
+            ${semHasNew(sidebarYear, sem) ? '<span class="new-dot-badge"></span>' : ''}
+          </span>
           <div class="row-body">
             <div class="row-title">${esc(semLabel(sem))}</div>
             <div class="row-sub">${subCount ? subCount + " subject" + (subCount !== 1 ? "s" : "") : "No subjects added yet"}</div>
@@ -1414,7 +1532,7 @@
             const active = chatCtx && chatCtx.year === sidebarYear && chatCtx.sem === sidebarSem && chatCtx.subjectKey === key;
             rows += `
           <div class="list-row ${active ? 'row-active' : ''}" data-year="${esc(sidebarYear)}" data-sem="${esc(sidebarSem)}" data-subject-key="${esc(key)}" onclick="openSubject('${escJs(sidebarYear)}','${escJs(sidebarSem)}','${escJs(key)}')">
-            ${subjectAvatar(key, subj.icon)}
+            ${subjectAvatar(key, subj.icon, subjectHasNew(sidebarYear, sidebarSem, key))}
             <div class="row-body">
               <div class="row-title">${esc(prettyName(key))}</div>
               <div class="row-sub">${fCount} file${fCount !== 1 ? "s" : ""}${done > 0 ? ' · <span class="done-tag">' + done + '/' + fCount + ' done</span>' : ''}</div>
@@ -1509,9 +1627,10 @@
         const delay = Math.min(idx * 40, 360);
         if (typeof val === "object") {
           const itemCount = countFiles(val);
+          const folderHasNew = collectFilePaths(val, [year, sem, subjectKey, ...path, name]).some(p => NEW_FILES_SET.has(p));
           bubbles += `
         <div class="doc-bubble folder-bubble" style="animation-delay:${delay}ms" onclick="pushPath('${escJs(name)}')">
-          <div class="doc-icon"><i class="fa-solid fa-folder"></i></div>
+          <div class="doc-icon"><i class="fa-solid fa-folder"></i>${folderHasNew ? '<span class="new-dot-badge"></span>' : ''}</div>
           <div class="doc-info">
             <div class="doc-name">${esc(prettyName(name))}</div>
             <div class="doc-meta">${itemCount} item${itemCount !== 1 ? "s" : ""}</div>
@@ -1522,6 +1641,7 @@
           const meta = FILE_ICONS[val] || FILE_ICONS.file;
           const fullPath = [year, sem, subjectKey, ...path, name].join("/");
           const read = isRead(fullPath);
+          const isNew = isNewFile(fullPath);
           bubbles += `
         <div class="doc-bubble" style="animation-delay:${delay}ms" onclick="openFile('${escJs(name)}')">
           <div class="doc-icon" style="background:${meta.color}1f;color:${meta.color};">
@@ -1529,7 +1649,7 @@
             <span class="read-badge ${read ? 'is-read' : ''}" onclick="event.stopPropagation(); toggleReadUI('${escJs(fullPath)}')" title="${read ? 'Mark as unread' : 'Mark as read'}"><i class="fa-solid fa-check"></i></span>
           </div>
           <div class="doc-info">
-            <div class="doc-name">${esc(name)}</div>
+            <div class="doc-name">${esc(name)}${isNew ? ' <span class="new-pill">NEW</span>' : ''}</div>
             <div class="doc-meta">${val}</div>
           </div>
           <div class="doc-action"><i class="fa-solid fa-arrow-down"></i></div>
@@ -1568,7 +1688,6 @@
     function openSubject(year, sem, key) {
       const subjectObj = fileTree[year][sem][key];
       chatCtx = { year, sem, subjectKey: key, subjectObj, path: [] };
-      pushRecent(year, sem, key);
       lastChatDepth = -999; // force fade rather than directional slide on fresh open
       renderChat();
       updateActiveRowHighlight();
@@ -1587,10 +1706,37 @@
       const parts = [chatCtx.year, chatCtx.sem, chatCtx.subjectKey, ...chatCtx.path, name];
       const fullPath = parts.join("/");
       markRead(fullPath);
+      clearNewFlag(fullPath);
       const safeUrl = parts.map(part => encodeURIComponent(part)).join("/");
-      window.open(safeUrl, "_blank");
+      const ext = name.split('.').pop().toLowerCase();
+      if (ext === 'pdf') {
+        openPdfViewer(safeUrl, name);
+      } else {
+        window.open(safeUrl, "_blank");
+      }
       renderChat();
       if (sidebarLevel === "subjects") renderSidebar();
+    }
+
+    /* ---------- In-app PDF viewer ----------
+       Opens the PDF inline (via the browser's native PDF renderer inside
+       an iframe) instead of forcing an immediate download, so students
+       can read first and only save the file if they actually need it. */
+    function openPdfViewer(url, name) {
+      document.getElementById('pdfViewerFrame').src = url;
+      document.getElementById('pdfViewerTitle').textContent = name;
+      const dl = document.getElementById('pdfViewerDownload');
+      dl.href = url;
+      dl.setAttribute('download', name);
+      const ext = document.getElementById('pdfViewerExternal');
+      ext.onclick = () => window.open(url, '_blank');
+      document.getElementById('pdfViewerOverlay').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePdfViewer() {
+      document.getElementById('pdfViewerOverlay').classList.remove('is-open');
+      document.getElementById('pdfViewerFrame').src = '';
+      document.body.style.overflow = '';
     }
 
     /* =========================================================
@@ -1611,6 +1757,7 @@
     /* =========================================================
        INIT
        ========================================================= */
+    initNewFilesTracking();
     renderSidebar();
     renderChat();
     try { history.replaceState(currentStateSnapshot(), ''); } catch (e) { /* ignore if History API unavailable */ }
@@ -1675,7 +1822,6 @@
         mobileChatOpen: window.innerWidth < 768
       };
       applyStateSnapshot(state);
-      pushRecent(year, sem, subjectKey);
       pushHistoryState();
       const input = document.getElementById('globalSearchInput');
       if (input) input.value = '';
@@ -1734,8 +1880,10 @@
       if (!splash) return;
 
       // Quick, like WhatsApp's own splash: logo fades in, holds briefly,
-      // then the whole overlay fades away straight into the site.
+      // then the logo/credit fade out fast (so nothing ghosts over the
+      // real content), and only then does the empty backdrop fade away.
       const MIN_SHOW_MS = 1600;
+      const CONTENT_FADE_MS = 180;
       const FADE_MS = 500;
       const startedAt = performance.now();
       let hidden = false;
@@ -1748,11 +1896,15 @@
         const wait = Math.max(0, MIN_SHOW_MS - elapsed);
 
         setTimeout(() => {
-          splash.classList.add('is-hiding');
+          splash.classList.add('content-hide');
 
           setTimeout(() => {
-            splash.remove();
-          }, FADE_MS + 80);
+            splash.classList.add('is-hiding');
+
+            setTimeout(() => {
+              splash.remove();
+            }, FADE_MS + 80);
+          }, CONTENT_FADE_MS);
         }, wait);
       }
 
@@ -1770,6 +1922,49 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
+
+    /* ---------- Install App banner ----------
+       Shows a dismissible WhatsApp-style promo strip when the browser
+       signals the site is installable, so students who don't already
+       know about "Add to Home Screen" get offered it directly. */
+    (function () {
+      const banner = document.getElementById('installBanner');
+      const btn = document.getElementById('installBannerBtn');
+      const closeBtn = document.getElementById('installBannerClose');
+      if (!banner || !btn || !closeBtn) return;
+
+      const DISMISS_KEY = 'ecshub_install_dismissed';
+      let deferredPrompt = null;
+
+      function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        if (isStandalone() || safeGet(DISMISS_KEY, false)) return;
+        deferredPrompt = e;
+        banner.classList.add('is-visible');
+      });
+
+      btn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        banner.classList.remove('is-visible');
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (e) { /* ignore */ }
+        deferredPrompt = null;
+      });
+
+      closeBtn.addEventListener('click', () => {
+        banner.classList.remove('is-visible');
+        safeSet(DISMISS_KEY, true);
+      });
+
+      window.addEventListener('appinstalled', () => {
+        banner.classList.remove('is-visible');
+        safeSet(DISMISS_KEY, true);
+      });
+    })();
 </script>
 </body>
 
