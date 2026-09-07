@@ -533,6 +533,68 @@
       background: #525659;
     }
 
+    .file-viewer-image-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      background: #1b1b1b;
+    }
+
+    .file-viewer-image-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .file-viewer-text {
+      margin: 0;
+      height: 100%;
+      overflow: auto;
+      box-sizing: border-box;
+      padding: 18px 20px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #e8e8e8;
+      background: #1e1e1e;
+    }
+
+    .file-viewer-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .pdf-canvas-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: #525659;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0 28px;
+      box-sizing: border-box;
+    }
+
+    .pdf-page-canvas {
+      margin-bottom: 10px;
+      max-width: calc(100% - 20px);
+      height: auto;
+      background: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
+    }
+
     .chat-back-btn {
       display: none;
     }
@@ -1162,17 +1224,20 @@
     </div>
   </div>
 
-  <div id="pdfViewerOverlay" class="pdf-viewer-overlay">
+  <div id="fileViewerOverlay" class="pdf-viewer-overlay">
     <div class="pdf-viewer-header">
-      <button class="icon-btn" onclick="closePdfViewer()" title="Close" aria-label="Close preview"><i class="fa-solid fa-arrow-left"></i></button>
-      <div class="pdf-viewer-title" id="pdfViewerTitle"></div>
-      <button class="icon-btn" id="pdfViewerExternal" title="Open in new tab" aria-label="Open in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
-      <a class="icon-btn" id="pdfViewerDownload" href="#" title="Download" aria-label="Download"><i class="fa-solid fa-arrow-down"></i></a>
+      <button class="icon-btn" onclick="closeFileViewer()" title="Close" aria-label="Close preview"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="pdf-viewer-title" id="fileViewerTitle"></div>
+      <button class="icon-btn" id="fileViewerExternal" title="Open in new tab" aria-label="Open in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
+      <a class="icon-btn" id="fileViewerDownload" href="#" title="Download" aria-label="Download"><i class="fa-solid fa-arrow-down"></i></a>
     </div>
-    <div class="pdf-viewer-body">
-      <iframe id="pdfViewerFrame" src="" title="PDF preview"></iframe>
-    </div>
+    <div class="pdf-viewer-body" id="fileViewerBody"></div>
   </div>
+
+  <!-- Renders PDFs as canvas pages ourselves — installed-app WebViews on
+       Android have no built-in PDF plugin, so an <iframe src="file.pdf">
+       just shows a blank "Open" download card instead of the document. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <script>
     /* =========================================================
@@ -1702,6 +1767,9 @@
       pushHistoryState();
     }
 
+    const IMAGE_EXTS = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg']);
+    const TEXT_EXTS = new Set(['txt', 'md', 'csv', 'log']);
+
     function openFile(name) {
       const parts = [chatCtx.year, chatCtx.sem, chatCtx.subjectKey, ...chatCtx.path, name];
       const fullPath = parts.join("/");
@@ -1710,7 +1778,11 @@
       const safeUrl = parts.map(part => encodeURIComponent(part)).join("/");
       const ext = name.split('.').pop().toLowerCase();
       if (ext === 'pdf') {
-        openPdfViewer(safeUrl, name);
+        openFileViewer(safeUrl, name, 'pdf');
+      } else if (IMAGE_EXTS.has(ext)) {
+        openFileViewer(safeUrl, name, 'image');
+      } else if (TEXT_EXTS.has(ext)) {
+        openFileViewer(safeUrl, name, 'text');
       } else {
         window.open(safeUrl, "_blank");
       }
@@ -1718,24 +1790,92 @@
       if (sidebarLevel === "subjects") renderSidebar();
     }
 
-    /* ---------- In-app PDF viewer ----------
-       Opens the PDF inline (via the browser's native PDF renderer inside
-       an iframe) instead of forcing an immediate download, so students
-       can read first and only save the file if they actually need it. */
-    function openPdfViewer(url, name) {
-      document.getElementById('pdfViewerFrame').src = url;
-      document.getElementById('pdfViewerTitle').textContent = name;
-      const dl = document.getElementById('pdfViewerDownload');
+    /* ---------- In-app file viewer ----------
+       Opens PDFs, images, and text files inline instead of forcing an
+       immediate download, so students can read first and only save the
+       file if they actually need it. Anything else (docx, pptx, zip,
+       etc.) still opens/downloads in a new tab since the browser can't
+       render those inline anyway.
+
+       PDFs are rendered ourselves via PDF.js onto <canvas> pages rather
+       than handed to an <iframe>. Android's WebView (which is what an
+       installed/home-screen PWA actually runs in) has no built-in PDF
+       plugin the way desktop Chrome or a normal browser tab does, so an
+       iframe just shows a blank "Open" download card there instead of
+       the document. */
+    let pdfRenderToken = 0;
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    function openFileViewer(url, name, kind) {
+      const body = document.getElementById('fileViewerBody');
+      pdfRenderToken++;
+      if (kind === 'pdf') {
+        body.innerHTML = `<div class="pdf-canvas-wrap" id="pdfCanvasWrap"><div class="file-viewer-loading">Loading PDF…</div></div>`;
+        renderPdf(url);
+      } else if (kind === 'image') {
+        body.innerHTML = `<div class="file-viewer-image-wrap"><img src="${esc(url)}" alt="${esc(name)}"></div>`;
+      } else if (kind === 'text') {
+        body.innerHTML = `<div class="file-viewer-loading">Loading…</div>`;
+        fetch(url).then(r => r.text()).then(text => {
+          if (document.getElementById('fileViewerOverlay').dataset.url !== url) return;
+          body.innerHTML = `<pre class="file-viewer-text"></pre>`;
+          body.querySelector('.file-viewer-text').textContent = text;
+        }).catch(() => {
+          if (document.getElementById('fileViewerOverlay').dataset.url !== url) return;
+          body.innerHTML = `<div class="file-viewer-loading">Couldn't load preview — try "Open in new tab" instead.</div>`;
+        });
+      }
+      document.getElementById('fileViewerOverlay').dataset.url = url;
+      document.getElementById('fileViewerTitle').textContent = name;
+      const dl = document.getElementById('fileViewerDownload');
       dl.href = url;
       dl.setAttribute('download', name);
-      const ext = document.getElementById('pdfViewerExternal');
-      ext.onclick = () => window.open(url, '_blank');
-      document.getElementById('pdfViewerOverlay').classList.add('is-open');
+      document.getElementById('fileViewerExternal').onclick = () => window.open(url, '_blank');
+      document.getElementById('fileViewerOverlay').classList.add('is-open');
       document.body.style.overflow = 'hidden';
     }
-    function closePdfViewer() {
-      document.getElementById('pdfViewerOverlay').classList.remove('is-open');
-      document.getElementById('pdfViewerFrame').src = '';
+
+    function renderPdf(url) {
+      const myToken = pdfRenderToken;
+      const wrap = document.getElementById('pdfCanvasWrap');
+      if (!window.pdfjsLib) {
+        wrap.innerHTML = `<div class="file-viewer-loading">PDF preview couldn't load — try "Open in new tab" instead.</div>`;
+        return;
+      }
+      pdfjsLib.getDocument(url).promise.then(pdf => {
+        if (myToken !== pdfRenderToken) return;
+        wrap.innerHTML = '';
+        const renderPage = (num) => {
+          pdf.getPage(num).then(page => {
+            if (myToken !== pdfRenderToken) return;
+            const targetWidth = Math.min(900, (wrap.clientWidth || 380) * 2);
+            const baseViewport = page.getViewport({ scale: 1 });
+            const scale = targetWidth / baseViewport.width;
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            canvas.className = 'pdf-page-canvas';
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            wrap.appendChild(canvas);
+            page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise.then(() => {
+              if (myToken === pdfRenderToken && num < pdf.numPages) renderPage(num + 1);
+            });
+          });
+        };
+        renderPage(1);
+      }).catch(() => {
+        if (myToken !== pdfRenderToken) return;
+        wrap.innerHTML = `<div class="file-viewer-loading">Couldn't load this PDF — try "Open in new tab" instead.</div>`;
+      });
+    }
+
+    function closeFileViewer() {
+      pdfRenderToken++;
+      document.getElementById('fileViewerOverlay').classList.remove('is-open');
+      document.getElementById('fileViewerOverlay').dataset.url = '';
+      document.getElementById('fileViewerBody').innerHTML = '';
       document.body.style.overflow = '';
     }
 
