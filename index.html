@@ -536,17 +536,22 @@
     .file-viewer-image-wrap {
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: auto;
+      overflow: hidden;
       background: #1b1b1b;
+      touch-action: none;
+      position: relative;
+    }
+
+    .file-viewer-image-wrap .zoom-content {
+      display: inline-block;
+      transform-origin: 0 0;
     }
 
     .file-viewer-image-wrap img {
-      max-width: 100%;
-      max-height: 100%;
+      display: block;
       object-fit: contain;
+      pointer-events: none;
+      -webkit-user-drag: none;
     }
 
     .file-viewer-text {
@@ -578,13 +583,20 @@
     .pdf-canvas-wrap {
       width: 100%;
       height: 100%;
-      overflow: auto;
+      overflow: hidden;
       background: #525659;
+      touch-action: none;
+      position: relative;
+    }
+
+    .pdf-canvas-wrap .zoom-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 12px 0 28px;
       box-sizing: border-box;
+      transform-origin: 0 0;
+      width: 100%;
     }
 
     .pdf-page-canvas {
@@ -593,6 +605,26 @@
       height: auto;
       background: #fff;
       box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, .55);
+      color: #fff;
+      font-size: 11.5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s var(--ease);
+      white-space: nowrap;
+    }
+
+    .zoom-hint.is-visible {
+      opacity: 1;
     }
 
     .chat-back-btn {
@@ -1812,10 +1844,24 @@
       const body = document.getElementById('fileViewerBody');
       pdfRenderToken++;
       if (kind === 'pdf') {
-        body.innerHTML = `<div class="pdf-canvas-wrap" id="pdfCanvasWrap"><div class="file-viewer-loading">Loading PDF…</div></div>`;
+        body.innerHTML = `<div class="pdf-canvas-wrap" id="pdfCanvasWrap"><div class="zoom-content" id="pdfZoomContent"><div class="file-viewer-loading">Loading PDF…</div></div><div class="zoom-hint" id="pdfZoomHint">Pinch to zoom</div></div>`;
         renderPdf(url);
+        enablePinchZoom(document.getElementById('pdfCanvasWrap'), document.getElementById('pdfZoomHint'));
       } else if (kind === 'image') {
-        body.innerHTML = `<div class="file-viewer-image-wrap"><img src="${esc(url)}" alt="${esc(name)}"></div>`;
+        body.innerHTML = `<div class="file-viewer-image-wrap" id="imgZoomWrap"><div class="zoom-content"><img src="${esc(url)}" alt="${esc(name)}"></div><div class="zoom-hint" id="imgZoomHint">Pinch to zoom</div></div>`;
+        {
+          const wrapEl = document.getElementById('imgZoomWrap');
+          const imgEl = wrapEl.querySelector('img');
+          imgEl.style.maxWidth = wrapEl.clientWidth + 'px';
+          imgEl.style.maxHeight = wrapEl.clientHeight + 'px';
+        }
+        enablePinchZoom(document.getElementById('imgZoomWrap'), document.getElementById('imgZoomHint'));
+        {
+          const wrapEl = document.getElementById('imgZoomWrap');
+          const imgEl = wrapEl.querySelector('img');
+          if (imgEl.complete) wrapEl._resetZoom();
+          else imgEl.addEventListener('load', () => wrapEl._resetZoom());
+        }
       } else if (kind === 'text') {
         body.innerHTML = `<div class="file-viewer-loading">Loading…</div>`;
         fetch(url).then(r => r.text()).then(text => {
@@ -1837,9 +1883,128 @@
       document.body.style.overflow = 'hidden';
     }
 
+    /* ---------- Pinch-to-zoom / pan ----------
+       The app's viewport disables native pinch-zoom (maximum-scale=1) so
+       the UI feels app-like everywhere else, but that also blocks
+       zooming into a PDF page or image — so inside the viewer we drive
+       zoom and pan ourselves via touch events and a CSS transform. */
+    function enablePinchZoom(container, hintEl) {
+      const content = container.querySelector('.zoom-content');
+      if (!content) return;
+      let scale = 1, originX = 0, originY = 0;
+      const minScale = 1, maxScale = 5;
+      let pinchStartDist = null, pinchStartScale = 1, pinchMidX = 0, pinchMidY = 0;
+      let panStartX = 0, panStartY = 0, panOriginX = 0, panOriginY = 0, panning = false;
+      let hintTimer = null;
+
+      function showHint() {
+        if (!hintEl) return;
+        hintEl.classList.add('is-visible');
+        clearTimeout(hintTimer);
+        hintTimer = setTimeout(() => hintEl.classList.remove('is-visible'), 1400);
+      }
+
+      function clamp() {
+        const cw = container.clientWidth, ch = container.clientHeight;
+        const contentW = content.scrollWidth * scale;
+        const contentH = content.scrollHeight * scale;
+        const minX = Math.min(0, cw - contentW);
+        const minY = Math.min(0, ch - contentH);
+        originX = contentW <= cw ? (cw - contentW) / 2 : Math.max(minX, Math.min(0, originX));
+        originY = contentH <= ch ? Math.max(0, Math.min(0, originY)) : Math.max(minY, Math.min(0, originY));
+      }
+
+      function apply() {
+        content.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+      }
+
+      function reset() {
+        scale = 1; originX = 0; originY = 0;
+        clamp();
+        apply();
+      }
+      container._resetZoom = reset;
+
+      function dist(a, b) {
+        return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      }
+
+      container.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          pinchStartDist = dist(e.touches[0], e.touches[1]);
+          pinchStartScale = scale;
+          const rect = container.getBoundingClientRect();
+          pinchMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+          pinchMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+          panning = false;
+        } else if (e.touches.length === 1) {
+          panStartX = e.touches[0].clientX;
+          panStartY = e.touches[0].clientY;
+          panOriginX = originX;
+          panOriginY = originY;
+          panning = true;
+        }
+      }, { passive: true });
+
+      container.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && pinchStartDist) {
+          e.preventDefault();
+          const newDist = dist(e.touches[0], e.touches[1]);
+          const newScale = Math.max(minScale, Math.min(maxScale, pinchStartScale * (newDist / pinchStartDist)));
+          originX = pinchMidX - (pinchMidX - originX) * (newScale / scale);
+          originY = pinchMidY - (pinchMidY - originY) * (newScale / scale);
+          scale = newScale;
+          clamp();
+          apply();
+        } else if (e.touches.length === 1 && panning && scale > 1) {
+          e.preventDefault();
+          originX = panOriginX + (e.touches[0].clientX - panStartX);
+          originY = panOriginY + (e.touches[0].clientY - panStartY);
+          clamp();
+          apply();
+        } else if (e.touches.length === 1 && panning && scale === 1 && content.scrollHeight > container.clientHeight) {
+          // At 1x, a PDF can still be taller than the viewer — allow a
+          // single-finger vertical drag to move between pages.
+          e.preventDefault();
+          originY = panOriginY + (e.touches[0].clientY - panStartY);
+          clamp();
+          apply();
+        }
+      }, { passive: false });
+
+      container.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) pinchStartDist = null;
+        if (e.touches.length === 0) panning = false;
+      });
+
+      let lastTapTime = 0;
+      container.addEventListener('touchend', (e) => {
+        if (e.touches.length > 0 || e.changedTouches.length !== 1) return;
+        const now = Date.now();
+        if (now - lastTapTime < 300) {
+          const rect = container.getBoundingClientRect();
+          const tapX = e.changedTouches[0].clientX - rect.left;
+          const tapY = e.changedTouches[0].clientY - rect.top;
+          const newScale = scale > 1 ? 1 : 2.5;
+          originX = tapX - (tapX - originX) * (newScale / scale);
+          originY = tapY - (tapY - originY) * (newScale / scale);
+          scale = newScale;
+          clamp();
+          apply();
+          lastTapTime = 0;
+        } else {
+          lastTapTime = now;
+        }
+      });
+
+      new MutationObserver(() => { clamp(); apply(); }).observe(content, { childList: true, subtree: true });
+      reset();
+      showHint();
+    }
+
     function renderPdf(url) {
       const myToken = pdfRenderToken;
-      const wrap = document.getElementById('pdfCanvasWrap');
+      const wrap = document.getElementById('pdfZoomContent');
       if (!window.pdfjsLib) {
         wrap.innerHTML = `<div class="file-viewer-loading">PDF preview couldn't load — try "Open in new tab" instead.</div>`;
         return;
@@ -1850,7 +2015,8 @@
         const renderPage = (num) => {
           pdf.getPage(num).then(page => {
             if (myToken !== pdfRenderToken) return;
-            const targetWidth = Math.min(900, (wrap.clientWidth || 380) * 2);
+            const containerEl = document.getElementById('pdfCanvasWrap');
+            const targetWidth = Math.min(900, (containerEl ? containerEl.clientWidth : 380) * 2);
             const baseViewport = page.getViewport({ scale: 1 });
             const scale = targetWidth / baseViewport.width;
             const viewport = page.getViewport({ scale });
