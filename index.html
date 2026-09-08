@@ -472,6 +472,11 @@
       color: var(--chevron-color);
       font-size: 14px;
       flex-shrink: 0;
+      transition: transform .15s var(--ease);
+    }
+
+    .list-row:hover .row-chevron {
+      transform: translateX(2px);
     }
 
     .empty-list-msg {
@@ -512,148 +517,6 @@
     }
 
     /* ---------- In-app PDF viewer ---------- */
-    .pdf-viewer-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: none;
-      flex-direction: column;
-      background: var(--bg-chat);
-    }
-
-    .pdf-viewer-overlay.is-open {
-      display: flex;
-    }
-
-    .pdf-viewer-header {
-      min-height: 58px;
-      padding: 8px 8px 8px 12px;
-      background: var(--bg-header);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }
-
-    .pdf-viewer-title {
-      flex: 1;
-      min-width: 0;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .pdf-viewer-body {
-      flex: 1;
-      min-height: 0;
-      background: #525659;
-    }
-
-    .pdf-viewer-body iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: #525659;
-    }
-
-    .file-viewer-image-wrap {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #1b1b1b;
-      touch-action: none;
-      position: relative;
-    }
-
-    .file-viewer-image-wrap .zoom-content {
-      display: inline-block;
-      transform-origin: 0 0;
-    }
-
-    .file-viewer-image-wrap img {
-      display: block;
-      object-fit: contain;
-      pointer-events: none;
-      -webkit-user-drag: none;
-    }
-
-    .file-viewer-text {
-      margin: 0;
-      height: 100%;
-      overflow: auto;
-      box-sizing: border-box;
-      padding: 18px 20px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 13.5px;
-      line-height: 1.6;
-      color: #e8e8e8;
-      background: #1e1e1e;
-    }
-
-    .file-viewer-loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: var(--text-muted);
-      font-size: 13.5px;
-      text-align: center;
-      padding: 0 24px;
-    }
-
-    .pdf-canvas-wrap {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #525659;
-      touch-action: none;
-      position: relative;
-    }
-
-    .pdf-canvas-wrap .zoom-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 12px 0 28px;
-      box-sizing: border-box;
-      transform-origin: 0 0;
-      width: 100%;
-    }
-
-    .pdf-page-canvas {
-      margin-bottom: 10px;
-      max-width: calc(100% - 20px);
-      height: auto;
-      background: #fff;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, .35);
-    }
-
-    .zoom-hint {
-      position: absolute;
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, .55);
-      color: #fff;
-      font-size: 11.5px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .25s var(--ease);
-      white-space: nowrap;
-    }
-
-    .zoom-hint.is-visible {
-      opacity: 1;
-    }
-
     .chat-back-btn {
       display: none;
     }
@@ -709,7 +572,7 @@
       color: var(--wa-green-dark);
       cursor: pointer;
       white-space: nowrap;
-      transition: color .15s;
+      transition: color .15s var(--ease);
       touch-action: manipulation;
     }
 
@@ -971,15 +834,29 @@
 
     /* ---------- Mobile ---------- */
     @media (max-width:767px) {
+      #app {
+        position: relative;
+      }
+
       .sidebar {
+        position: absolute;
+        inset: 0;
         width: 100%;
         max-width: 100%;
         min-width: 0;
+        transform: translateX(0);
+        transition: transform .32s var(--ease);
+        z-index: 1;
       }
 
       .chat {
-        display: none;
+        position: absolute;
+        inset: 0;
         width: 100%;
+        display: flex;
+        transform: translateX(100%);
+        transition: transform .32s var(--ease);
+        z-index: 1;
       }
 
       .chat-empty .ce-icon {
@@ -1008,11 +885,11 @@
       }
 
       #app.chat-open .sidebar {
-        display: none;
+        transform: translateX(-100%);
       }
 
       #app.chat-open .chat {
-        display: flex;
+        transform: translateX(0);
       }
 
       .chat-back-btn {
@@ -1120,6 +997,22 @@
         opacity: 1 !important;
         transform: none !important;
       }
+
+      .sidebar,
+      .chat {
+        transition: none !important;
+      }
+
+      .list-row,
+      .doc-bubble,
+      .anim-right,
+      .anim-left,
+      .anim-fade {
+        transition: none !important;
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
     }
 
 
@@ -1215,6 +1108,47 @@
     .install-banner-close:hover {
       background: rgba(0, 0, 0, .06);
     }
+
+    .update-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translate(-50%, 120%);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #1f2937;
+      color: #fff;
+      padding: 11px 12px 11px 16px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-md);
+      font-size: 13px;
+      max-width: calc(100% - 32px);
+      transition: transform .3s var(--ease);
+    }
+
+    .update-toast.is-visible {
+      transform: translate(-50%, 0);
+    }
+
+    .update-toast span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .update-toast button {
+      flex-shrink: 0;
+      background: var(--wa-green);
+      color: #fff;
+      border: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
     .global-search input { width:100%; border:0; outline:0; background:transparent; color:var(--text-primary); font:inherit; font-size:14px; }
     .global-search input::placeholder { color:var(--text-secondary); }
     .search-results { position:absolute; z-index:20; left:14px; right:14px; top:58px; max-height:min(70vh,620px); overflow-y:auto; background:var(--bg-sidebar); border:1px solid var(--border-color); box-shadow:var(--shadow-md); display:none; }
@@ -1283,20 +1217,10 @@
     </div>
   </div>
 
-  <div id="fileViewerOverlay" class="pdf-viewer-overlay">
-    <div class="pdf-viewer-header">
-      <button class="icon-btn" onclick="closeFileViewer()" title="Close" aria-label="Close preview"><i class="fa-solid fa-arrow-left"></i></button>
-      <div class="pdf-viewer-title" id="fileViewerTitle"></div>
-      <button class="icon-btn" id="fileViewerExternal" title="Open in new tab" aria-label="Open in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
-      <a class="icon-btn" id="fileViewerDownload" href="#" title="Download" aria-label="Download"><i class="fa-solid fa-arrow-down"></i></a>
-    </div>
-    <div class="pdf-viewer-body" id="fileViewerBody"></div>
+  <div class="update-toast" id="updateToast">
+    <span>A new version of ECSHub is ready.</span>
+    <button onclick="location.reload()">Refresh</button>
   </div>
-
-  <!-- Renders PDFs as canvas pages ourselves — installed-app WebViews on
-       Android have no built-in PDF plugin, so an <iframe src="file.pdf">
-       just shows a blank "Open" download card instead of the document. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <script>
     /* =========================================================
@@ -1844,263 +1768,15 @@
       pushHistoryState();
     }
 
-    const IMAGE_EXTS = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg']);
-    const TEXT_EXTS = new Set(['txt', 'md', 'csv', 'log']);
-
     function openFile(name) {
       const parts = [chatCtx.year, chatCtx.sem, chatCtx.subjectKey, ...chatCtx.path, name];
       const fullPath = parts.join("/");
       markRead(fullPath);
       clearNewFlag(fullPath);
       const safeUrl = parts.map(part => encodeURIComponent(part)).join("/");
-      const ext = name.split('.').pop().toLowerCase();
-      if (ext === 'pdf') {
-        openFileViewer(safeUrl, name, 'pdf');
-      } else if (IMAGE_EXTS.has(ext)) {
-        openFileViewer(safeUrl, name, 'image');
-      } else if (TEXT_EXTS.has(ext)) {
-        openFileViewer(safeUrl, name, 'text');
-      } else {
-        window.open(safeUrl, "_blank");
-      }
+      window.open(safeUrl, "_blank");
       renderChat();
       if (sidebarLevel === "subjects") renderSidebar();
-    }
-
-    /* ---------- In-app file viewer ----------
-       Opens PDFs, images, and text files inline instead of forcing an
-       immediate download, so students can read first and only save the
-       file if they actually need it. Anything else (docx, pptx, zip,
-       etc.) still opens/downloads in a new tab since the browser can't
-       render those inline anyway.
-
-       PDFs are rendered ourselves via PDF.js onto <canvas> pages rather
-       than handed to an <iframe>. Android's WebView (which is what an
-       installed/home-screen PWA actually runs in) has no built-in PDF
-       plugin the way desktop Chrome or a normal browser tab does, so an
-       iframe just shows a blank "Open" download card there instead of
-       the document. */
-    let pdfRenderToken = 0;
-    if (window.pdfjsLib) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-
-    function offlineMsg(fallback) {
-      return !navigator.onLine
-        ? "You're offline and this file hasn't been opened before, so it isn't saved for offline use yet. Connect to the internet once to load it."
-        : fallback;
-    }
-
-    function openFileViewer(url, name, kind) {
-      const body = document.getElementById('fileViewerBody');
-      pdfRenderToken++;
-      if (kind === 'pdf') {
-        body.innerHTML = `<div class="pdf-canvas-wrap" id="pdfCanvasWrap"><div class="zoom-content" id="pdfZoomContent"><div class="file-viewer-loading">Loading PDF…</div></div><div class="zoom-hint" id="pdfZoomHint">Pinch to zoom</div></div>`;
-        renderPdf(url);
-        enablePinchZoom(document.getElementById('pdfCanvasWrap'), document.getElementById('pdfZoomHint'));
-      } else if (kind === 'image') {
-        body.innerHTML = `<div class="file-viewer-image-wrap" id="imgZoomWrap"><div class="zoom-content"><img src="${esc(url)}" alt="${esc(name)}"></div><div class="zoom-hint" id="imgZoomHint">Pinch to zoom</div></div>`;
-        {
-          const wrapEl = document.getElementById('imgZoomWrap');
-          const imgEl = wrapEl.querySelector('img');
-          imgEl.style.maxWidth = wrapEl.clientWidth + 'px';
-          imgEl.style.maxHeight = wrapEl.clientHeight + 'px';
-          imgEl.addEventListener('error', () => {
-            if (document.getElementById('fileViewerOverlay').dataset.url !== url) return;
-            body.innerHTML = `<div class="file-viewer-loading">${offlineMsg("Couldn't load this image — try \"Open in new tab\" instead.")}</div>`;
-          });
-        }
-        enablePinchZoom(document.getElementById('imgZoomWrap'), document.getElementById('imgZoomHint'));
-        {
-          const wrapEl = document.getElementById('imgZoomWrap');
-          const imgEl = wrapEl.querySelector('img');
-          if (imgEl.complete) wrapEl._resetZoom();
-          else imgEl.addEventListener('load', () => wrapEl._resetZoom());
-        }
-      } else if (kind === 'text') {
-        body.innerHTML = `<div class="file-viewer-loading">Loading…</div>`;
-        fetch(url).then(r => {
-          if (!r.ok) throw new Error('fetch failed');
-          return r.text();
-        }).then(text => {
-          if (document.getElementById('fileViewerOverlay').dataset.url !== url) return;
-          body.innerHTML = `<pre class="file-viewer-text"></pre>`;
-          body.querySelector('.file-viewer-text').textContent = text;
-        }).catch(() => {
-          if (document.getElementById('fileViewerOverlay').dataset.url !== url) return;
-          body.innerHTML = `<div class="file-viewer-loading">${offlineMsg('Couldn\'t load preview — try "Open in new tab" instead.')}</div>`;
-        });
-      }
-      document.getElementById('fileViewerOverlay').dataset.url = url;
-      document.getElementById('fileViewerTitle').textContent = name;
-      const dl = document.getElementById('fileViewerDownload');
-      dl.href = url;
-      dl.setAttribute('download', name);
-      document.getElementById('fileViewerExternal').onclick = () => window.open(url, '_blank');
-      document.getElementById('fileViewerOverlay').classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    /* ---------- Pinch-to-zoom / pan ----------
-       The app's viewport disables native pinch-zoom (maximum-scale=1) so
-       the UI feels app-like everywhere else, but that also blocks
-       zooming into a PDF page or image — so inside the viewer we drive
-       zoom and pan ourselves via touch events and a CSS transform. */
-    function enablePinchZoom(container, hintEl) {
-      const content = container.querySelector('.zoom-content');
-      if (!content) return;
-      let scale = 1, originX = 0, originY = 0;
-      const minScale = 1, maxScale = 5;
-      let pinchStartDist = null, pinchStartScale = 1, pinchMidX = 0, pinchMidY = 0;
-      let panStartX = 0, panStartY = 0, panOriginX = 0, panOriginY = 0, panning = false;
-      let hintTimer = null;
-
-      function showHint() {
-        if (!hintEl) return;
-        hintEl.classList.add('is-visible');
-        clearTimeout(hintTimer);
-        hintTimer = setTimeout(() => hintEl.classList.remove('is-visible'), 1400);
-      }
-
-      function clamp() {
-        const cw = container.clientWidth, ch = container.clientHeight;
-        const contentW = content.scrollWidth * scale;
-        const contentH = content.scrollHeight * scale;
-        const minX = Math.min(0, cw - contentW);
-        const minY = Math.min(0, ch - contentH);
-        originX = contentW <= cw ? (cw - contentW) / 2 : Math.max(minX, Math.min(0, originX));
-        originY = contentH <= ch ? Math.max(0, Math.min(0, originY)) : Math.max(minY, Math.min(0, originY));
-      }
-
-      function apply() {
-        content.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-      }
-
-      function reset() {
-        scale = 1; originX = 0; originY = 0;
-        clamp();
-        apply();
-      }
-      container._resetZoom = reset;
-
-      function dist(a, b) {
-        return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
-      }
-
-      container.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
-          pinchStartDist = dist(e.touches[0], e.touches[1]);
-          pinchStartScale = scale;
-          const rect = container.getBoundingClientRect();
-          pinchMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-          pinchMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
-          panning = false;
-        } else if (e.touches.length === 1) {
-          panStartX = e.touches[0].clientX;
-          panStartY = e.touches[0].clientY;
-          panOriginX = originX;
-          panOriginY = originY;
-          panning = true;
-        }
-      }, { passive: true });
-
-      container.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2 && pinchStartDist) {
-          e.preventDefault();
-          const newDist = dist(e.touches[0], e.touches[1]);
-          const newScale = Math.max(minScale, Math.min(maxScale, pinchStartScale * (newDist / pinchStartDist)));
-          originX = pinchMidX - (pinchMidX - originX) * (newScale / scale);
-          originY = pinchMidY - (pinchMidY - originY) * (newScale / scale);
-          scale = newScale;
-          clamp();
-          apply();
-        } else if (e.touches.length === 1 && panning && scale > 1) {
-          e.preventDefault();
-          originX = panOriginX + (e.touches[0].clientX - panStartX);
-          originY = panOriginY + (e.touches[0].clientY - panStartY);
-          clamp();
-          apply();
-        } else if (e.touches.length === 1 && panning && scale === 1 && content.scrollHeight > container.clientHeight) {
-          // At 1x, a PDF can still be taller than the viewer — allow a
-          // single-finger vertical drag to move between pages.
-          e.preventDefault();
-          originY = panOriginY + (e.touches[0].clientY - panStartY);
-          clamp();
-          apply();
-        }
-      }, { passive: false });
-
-      container.addEventListener('touchend', (e) => {
-        if (e.touches.length < 2) pinchStartDist = null;
-        if (e.touches.length === 0) panning = false;
-      });
-
-      let lastTapTime = 0;
-      container.addEventListener('touchend', (e) => {
-        if (e.touches.length > 0 || e.changedTouches.length !== 1) return;
-        const now = Date.now();
-        if (now - lastTapTime < 300) {
-          const rect = container.getBoundingClientRect();
-          const tapX = e.changedTouches[0].clientX - rect.left;
-          const tapY = e.changedTouches[0].clientY - rect.top;
-          const newScale = scale > 1 ? 1 : 2.5;
-          originX = tapX - (tapX - originX) * (newScale / scale);
-          originY = tapY - (tapY - originY) * (newScale / scale);
-          scale = newScale;
-          clamp();
-          apply();
-          lastTapTime = 0;
-        } else {
-          lastTapTime = now;
-        }
-      });
-
-      new MutationObserver(() => { clamp(); apply(); }).observe(content, { childList: true, subtree: true });
-      reset();
-      showHint();
-    }
-
-    function renderPdf(url) {
-      const myToken = pdfRenderToken;
-      const wrap = document.getElementById('pdfZoomContent');
-      if (!window.pdfjsLib) {
-        wrap.innerHTML = `<div class="file-viewer-loading">PDF preview couldn't load — try "Open in new tab" instead.</div>`;
-        return;
-      }
-      pdfjsLib.getDocument(url).promise.then(pdf => {
-        if (myToken !== pdfRenderToken) return;
-        wrap.innerHTML = '';
-        const renderPage = (num) => {
-          pdf.getPage(num).then(page => {
-            if (myToken !== pdfRenderToken) return;
-            const containerEl = document.getElementById('pdfCanvasWrap');
-            const targetWidth = Math.min(900, (containerEl ? containerEl.clientWidth : 380) * 2);
-            const baseViewport = page.getViewport({ scale: 1 });
-            const scale = targetWidth / baseViewport.width;
-            const viewport = page.getViewport({ scale });
-            const canvas = document.createElement('canvas');
-            canvas.className = 'pdf-page-canvas';
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            wrap.appendChild(canvas);
-            page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise.then(() => {
-              if (myToken === pdfRenderToken && num < pdf.numPages) renderPage(num + 1);
-            });
-          });
-        };
-        renderPage(1);
-      }).catch(() => {
-        if (myToken !== pdfRenderToken) return;
-        wrap.innerHTML = `<div class="file-viewer-loading">${offlineMsg('Couldn\'t load this PDF — try "Open in new tab" instead.')}</div>`;
-      });
-    }
-
-    function closeFileViewer() {
-      pdfRenderToken++;
-      document.getElementById('fileViewerOverlay').classList.remove('is-open');
-      document.getElementById('fileViewerOverlay').dataset.url = '';
-      document.getElementById('fileViewerBody').innerHTML = '';
-      document.body.style.overflow = '';
     }
 
     /* =========================================================
@@ -2285,6 +1961,23 @@
     /* ---------- PWA ---------- */
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+
+      // Network-first shell (see sw.js) already gets students fresh
+      // content on their next open. This just covers someone who kept
+      // the app open in the background while an update was published —
+      // controllerchange fires when a new service worker takes over.
+      // The very first activation (no previous controller) also fires
+      // this once, so that first firing is ignored rather than shown
+      // as an "update".
+      let hadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadController) {
+          hadController = true;
+          return;
+        }
+        const toast = document.getElementById('updateToast');
+        if (toast) toast.classList.add('is-visible');
+      });
     }
 
     /* ---------- Install App banner ----------
