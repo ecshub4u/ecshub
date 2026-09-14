@@ -44,9 +44,10 @@ self.addEventListener("fetch", e => {
 
   // Study material and other assets: cache-first. Once a file's been
   // opened once, it works offline and doesn't get re-downloaded every
-  // visit. A missing/offline file fails as itself (504) rather than
-  // silently returning index.html — see the note in openFile's error
-  // handling on the page for why that matters.
+  // visit. A missing/offline file fails as itself (504, browser shows
+  // its own "can't reach this page") rather than silently returning
+  // index.html, which used to make an offline file open show the
+  // site's own HTML source instead of a clear failure.
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;

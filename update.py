@@ -257,6 +257,46 @@ def build_file_tree():
 # INDEX.HTML UPDATE
 # ============================================================
 
+def _find_json_object_end(text: str, start: int) -> int:
+    """
+    Given the index of the opening '{' of a JSON object embedded in
+    `text`, returns the index just after its matching closing '}'.
+
+    A naive "match up to the next semicolon" approach (the previous
+    implementation) silently breaks if any file/folder name ever
+    contains a literal ';' — the regex would stop early, right in the
+    middle of the data, corrupting index.html. Counting braces instead
+    (and skipping over braces that appear inside quoted strings) finds
+    the real end of the object no matter what characters show up in a
+    filename.
+    """
+    depth = 0
+    in_string = False
+    escaped = False
+    i = start
+    n = len(text)
+    while i < n:
+        ch = text[i]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == '"':
+                in_string = False
+        else:
+            if ch == '"':
+                in_string = True
+            elif ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    return i + 1
+        i += 1
+    raise RuntimeError("Malformed fileTree object: no matching closing brace found.")
+
+
 def update_index(original: str, tree: dict) -> str:
     """
     Replace ONLY:
@@ -265,18 +305,22 @@ def update_index(original: str, tree: dict) -> str:
     Everything else in index.html remains untouched.
     """
 
-    pattern = re.compile(
-        r"(const\s+fileTree\s*=\s*)(.*?)(;)",
-        re.DOTALL,
-    )
+    marker = re.search(r"const\s+fileTree\s*=\s*", original)
 
-    match = pattern.search(original)
-
-    if not match:
+    if not marker or marker.end() >= len(original) or original[marker.end()] != "{":
         raise RuntimeError(
-            "Could not find `const fileTree = ...;` in index.html.\n"
+            "Could not find `const fileTree = { ... };` in index.html.\n"
             "No index.html changes were made."
         )
+
+    obj_start = marker.end()
+    obj_end = _find_json_object_end(original, obj_start)
+
+    # Keep whatever came right after the object as-is (normally just
+    # ';') instead of assuming it's exactly one semicolon.
+    tail_match = re.match(r"\s*;", original[obj_end:])
+    after = obj_end + (tail_match.end() if tail_match else 0)
+    closing = original[obj_end:after] or ";"
 
     data = json.dumps(
         tree,
@@ -284,12 +328,12 @@ def update_index(original: str, tree: dict) -> str:
         separators=(",", ":"),
     )
 
-    replacement = match.group(1) + data + match.group(3)
+    replacement = original[marker.start():marker.end()] + data + closing
 
     return (
-        original[:match.start()]
+        original[:marker.start()]
         + replacement
-        + original[match.end():]
+        + original[after:]
     )
 
 
