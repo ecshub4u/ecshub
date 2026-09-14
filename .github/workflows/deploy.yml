@@ -1,20 +1,19 @@
-name: Sync Study Material & Deploy Pages
+name: Update ECSHub and Deploy
 
 on:
   push:
     branches:
       - main
-
   workflow_dispatch:
+
+concurrency:
+  group: "ecshub-deploy"
+  cancel-in-progress: false
 
 permissions:
   contents: write
   pages: write
   id-token: write
-
-concurrency:
-  group: "ecshub-deploy"
-  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -25,25 +24,30 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-
       # 1. Checkout the repository
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. Setup Python
-      - name: Setup Python
+      # 2. Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      # 3. Update index.html and sitemap.xml
-      - name: Run Website Updater
+      # 3. Regenerate index.html's fileTree and sitemap.xml from the
+      #    current folders. Safe to run on every push, not just ones that
+      #    touched a year folder — it's fast, and it's a no-op commit if
+      #    nothing actually changed.
+      - name: Run ECSHub updater
         run: python update.py
 
-      # 4. Commit generated changes locally
-      - name: Commit Generated Files
+      # 4. Commit + push the generated files, only if something changed.
+      #    "[skip ci]" in the message stops this commit from re-triggering
+      #    this same workflow — without it, the bot's own push would kick
+      #    off another run, which would kick off another commit, and so on.
+      - name: Commit generated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -54,25 +58,15 @@ jobs:
             echo "No generated changes to commit."
           else
             git commit -m "auto: sync website data [skip ci]"
+            git push origin HEAD:main
           fi
 
-      # 5. Get the latest main branch and rebase
-      - name: Rebase Onto Latest Main
-        run: |
-          git fetch origin main
-          git rebase origin/main
-
-      # 6. Push the final generated state
-      - name: Push Generated State
-        run: |
-          git push origin HEAD:main
-
-      # 7. Configure GitHub Pages
+      # 5. Configure Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 8. Prepare a clean production website
-      - name: Prepare Production Site
+      # 6. Build a clean production folder (excludes dev-only files)
+      - name: Prepare production site
         run: |
           rm -rf _site
           mkdir -p _site
@@ -86,13 +80,15 @@ jobs:
             --exclude='README.md' \
             ./ _site/
 
-      # 9. Upload the production site as Pages artifact
-      - name: Upload Pages Artifact
+      # 7. Upload it as the Pages artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "_site"
 
-      # 10. Deploy to GitHub Pages
+      # 8. Deploy — this is the ONLY deployment step in the whole
+      #    pipeline now, so there's no more risk of two workflows
+      #    racing to publish two different snapshots.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
