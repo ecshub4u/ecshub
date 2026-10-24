@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Oracle 10g XE | ECSHub</title>
+  <link rel="icon" type="image/png" href="../../../../favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --wa-green: #00a884;
+      --wa-green-dark: #008069;
+      --wa-green-tint: #e7f8f3;
+      --bg-header: #f0f2f5;
+      --bg-chat: #efeae2;
+      --bg-card: #ffffff;
+      --text-primary: #111b21;
+      --text-secondary: #667781;
+      --border-color: #e9edef;
+      --hover-bg: #f5f6f6;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .15);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, .18);
+      --ease: cubic-bezier(.4, 0, .2, 1);
+    }
+    body.dark {
+      --wa-green-tint: #0b3b32;
+      --bg-header: #202c33;
+      --bg-chat: #0b141a;
+      --bg-card: #202c33;
+      --text-primary: #e9edef;
+      --text-secondary: #8696a0;
+      --border-color: #222d34;
+      --hover-bg: #2a3942;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, .5);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-chat);
+      transition: background .25s var(--ease), color .25s var(--ease);
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 16px;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .topbar img { width: 36px; height: 36px; border-radius: 50%; }
+    .topbar .brand { font-size: 18px; font-weight: 600; }
+    .topbar .spacer { flex: 1; }
+    .icon-btn {
+      width: 38px; height: 38px; border: 0; border-radius: 50%;
+      background: transparent; color: var(--text-secondary);
+      font-size: 16px; cursor: pointer;
+      transition: background .2s var(--ease);
+    }
+    .icon-btn:hover { background: var(--hover-bg); }
+
+    /* Breadcrumb */
+    .crumbs {
+      padding: 10px 16px;
+      font-size: 13px; color: var(--text-secondary);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    }
+    .crumbs a { color: var(--wa-green-dark); text-decoration: none; font-weight: 500; }
+    body.dark .crumbs a { color: var(--wa-green); }
+    .crumbs a:hover { text-decoration: underline; }
+    .crumbs i { font-size: 10px; opacity: .6; }
+
+    /* Card */
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+    }
+    .card {
+      width: 100%; max-width: 460px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 28px 24px 24px;
+      text-align: center;
+    }
+    .file-icon {
+      width: 72px; height: 72px; margin: 0 auto 16px;
+      border-radius: 50%;
+      background: var(--wa-green-tint);
+      color: var(--wa-green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+    }
+    h1 { font-size: 20px; margin: 0 0 6px; }
+    .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 20px; }
+    .meta {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .chip {
+      font-size: 12px; padding: 5px 12px; border-radius: 999px;
+      background: var(--wa-green-tint); color: var(--wa-green-dark);
+      font-weight: 600;
+    }
+    body.dark .chip { color: var(--wa-green); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 13px 20px;
+      background: var(--wa-green); color: #fff;
+      border: 0; border-radius: var(--radius-md);
+      font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background .2s var(--ease), transform .1s var(--ease);
+    }
+    .btn:hover { background: var(--wa-green-dark); }
+    .btn:active { transform: scale(.98); }
+    .status {
+      margin-top: 14px; font-size: 13px; color: var(--wa-green-dark);
+      min-height: 18px; font-weight: 500;
+    }
+    body.dark .status { color: var(--wa-green); }
+    .notes {
+      margin-top: 18px; padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+      font-size: 12.5px; color: var(--text-secondary); line-height: 1.55;
+    }
+    .notes a { color: var(--wa-green-dark); }
+    body.dark .notes a { color: var(--wa-green); }
+    footer {
+      text-align: center; padding: 14px; font-size: 12px; color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <img src="../../../../ecshub_logo.png" alt="ECSHub logo" onerror="this.style.display='none'">
+    <div class="brand">ECSHub</div>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="themeBtn" title="Toggle dark mode" aria-label="Toggle dark mode">
+      <i class="fa-solid fa-moon" id="themeIcon"></i>
+    </button>
+  </header>
+
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="https://ecshub4u.github.io/ecshub/">Home</a><i class="fa-solid fa-chevron-right"></i>
+    <a href="https://ecshub4u.github.io/ecshub/#second%20year">Second Year</a><i class="fa-solid fa-chevron-right"></i>
+    <a href="https://ecshub4u.github.io/ecshub/#second%20year%7Csem%20III">Sem III</a><i class="fa-solid fa-chevron-right"></i>
+    <a href="https://ecshub4u.github.io/ecshub/#second%20year%7Csem%20III%7CDATABASE%20MANAGEMENT%20SYSTEMS">Database Management Systems</a>
+  </nav>
+
+  <main>
+    <section class="card">
+      <div class="file-icon"><i class="fa-solid fa-database"></i></div>
+      <h1>Oracle Database 10g Express Edition</h1>
+      <p class="sub">Installer for DBMS practicals (SQL / PL-SQL)</p>
+
+      <div class="meta">
+        <span class="chip"><i class="fa-brands fa-windows"></i> Windows</span>
+        <span class="chip">.exe</span>
+        <span class="chip">158 MB</span>
+      </div>
+
+      <a class="btn" id="dlBtn"
+         href="https://github.com/ecshub4u/ecshub/releases/download/oracle-10g-xe/OracleXE.exe"
+         download="OracleXE.exe">
+        <i class="fa-solid fa-download"></i> Download OracleXE.exe
+      </a>
+      <div class="status" id="status" aria-live="polite"></div>
+
+      <div class="notes">
+        File is large, so please keep a stable internet connection. After downloading, run
+        <b>OracleXE.exe</b> as administrator to install.<br>
+        Oracle Database XE is free software by Oracle Corporation. Official downloads:
+        <a href="https://www.oracle.com/database/technologies/xe-downloads.html" target="_blank" rel="noopener">oracle.com</a>.
+      </div>
+    </section>
+  </main>
+
+  <footer>Made with ❤️ by Rohan</footer>
+
+  <script>
+    (function () {
+      // Same theme as the main ECSHub site (shared localStorage key on the same origin)
+      var KEY = 'ecshub_theme';
+      function get() {
+        try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; }
+      }
+      function set(v) {
+        try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {}
+      }
+      function apply(dark) {
+        document.body.classList.toggle('dark', dark);
+        document.getElementById('themeIcon').className = 'fa-solid ' + (dark ? 'fa-sun' : 'fa-moon');
+      }
+      apply(get() === 'dark');
+      document.getElementById('themeBtn').addEventListener('click', function () {
+        var dark = !document.body.classList.contains('dark');
+        apply(dark);
+        set(dark ? 'dark' : 'light');
+      });
+
+      // Download starts ONLY when the button is clicked
+      document.getElementById('dlBtn').addEventListener('click', function () {
+        document.getElementById('status').textContent = 'Download starting… check your browser downloads.';
+      });
+    })();
+  </script>
+</body>
+</html>
